@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/my_icons.dart';
 import 'package:flutter_default_code/screens/search.dart';
 
-import 'cart.dart';
+import 'cart/cart.dart';
 import 'feeds.dart';
 import 'home.dart';
 import 'user_info.dart';
@@ -15,7 +15,7 @@ class BottomBarScreen extends StatefulWidget {
 
 class _BottomBarScreenState extends State<BottomBarScreen> {
   var _pages;
-  int _selectedPageIndex = 3;
+  int _selectedPageIndex = 1;
   late List<Object> pages;
   @override
   void initState() {

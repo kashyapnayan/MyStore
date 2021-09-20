@@ -5,7 +5,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:provider/provider.dart';
 
-import 'cart.dart';
+import 'cart/cart.dart';
 
 class UserInfo extends StatefulWidget {
   const UserInfo({Key? key}) : super(key: key);

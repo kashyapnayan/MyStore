@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/colors.dart';
 import 'package:flutter_default_code/consts/my_icons.dart';
 
-import 'cart/cart_data.dart';
-import 'cart/cart_empty.dart';
+import 'cart_data.dart';
+import 'cart_empty.dart';
 
 class Cart extends StatelessWidget {
   static const routeName = '/CartScreen';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/theme_data.dart';
 import 'package:flutter_default_code/provider/dark_theme_provider.dart';
-import 'package:flutter_default_code/screens/cart.dart';
+import 'package:flutter_default_code/screens/cart/cart.dart';
 import 'package:flutter_default_code/screens/feeds.dart';
 import 'package:provider/provider.dart';
 
