@@ -15,7 +15,7 @@ class BottomBarScreen extends StatefulWidget {
 
 class _BottomBarScreenState extends State<BottomBarScreen> {
   var _pages;
-  int _selectedPageIndex = 4;
+  int _selectedPageIndex = 3;
   late List<Object> pages;
   @override
   void initState() {
@@ -99,7 +99,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                     activeIcon: null, icon: Icon(null), label: 'Search'),
                 BottomNavigationBarItem(
                     icon: Icon(
-                      MyAppIcons.cart,
+                      MyAppIcons.bag,
                     ),
                     label: 'Cart'),
                 BottomNavigationBarItem(
