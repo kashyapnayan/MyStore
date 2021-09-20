@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_default_code/screens/cart.dart';
+import 'package:flutter_default_code/screens/feeds.dart';
 
 import 'screens/bottom_bar.dart';
 
@@ -15,6 +17,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.teal,
       ),
       home: BottomBarScreen(),
+      routes: {
+        //   '/': (ctx) => LandingPage(),
+        Cart.routeName: (ctx) => Cart(),
+        Feeds.routeName: (ctx) => Feeds(),
+        BottomBarScreen.routeName: (ctx) => BottomBarScreen(),
+      },
     );
   }
 }

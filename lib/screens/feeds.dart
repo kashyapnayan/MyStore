@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Feeds extends StatelessWidget {
+  static const routeName = '/FeedsScreen';
   const Feeds({Key? key}) : super(key: key);
 
   @override
