@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/colors.dart';
+import 'package:flutter_default_code/provider/dark_theme_provider.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
+import 'package:provider/provider.dart';
 
 import 'cart.dart';
 
@@ -14,7 +16,6 @@ class UserInfo extends StatefulWidget {
 
 class _UserInfoState extends State<UserInfo> {
   late ScrollController _scrollController;
-  bool _value = false;
   var top = 0.0;
   String? _uid;
   String? _name;
@@ -34,6 +35,7 @@ class _UserInfoState extends State<UserInfo> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -186,11 +188,11 @@ class _UserInfoState extends State<UserInfo> {
                       color: Colors.grey,
                     ),
                     ListTileSwitch(
-                      value: _value,
+                      value: themeChange.darkTheme,
                       leading: Icon(Ionicons.moon_outline),
                       onChanged: (value) {
                         setState(() {
-                          _value = value;
+                          themeChange.darkTheme = value;
                         });
                       },
                       visualDensity: VisualDensity.comfortable,
