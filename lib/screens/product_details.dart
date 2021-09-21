@@ -302,10 +302,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                   flex: 3,
                   child: Container(
                     height: 50,
-                    child: RaisedButton(
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      shape: RoundedRectangleBorder(side: BorderSide.none),
-                      color: Colors.redAccent.shade400,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.redAccent.shade400,
+                        shape: RoundedRectangleBorder(side: BorderSide.none),
+                      ),
                       onPressed:(){},
                       child: Text(
                         'Add to Cart'.toUpperCase(),
@@ -318,10 +319,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                   flex: 2,
                   child: Container(
                     height: 50,
-                    child: RaisedButton(
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      shape: RoundedRectangleBorder(side: BorderSide.none),
-                      color: Theme.of(context).backgroundColor,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).backgroundColor,
+                        shape: RoundedRectangleBorder(side: BorderSide.none),
+                      ),
                       onPressed: () {},
                       child: Row(
                         children: [
