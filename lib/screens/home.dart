@@ -1,5 +1,6 @@
 import 'package:backdrop/backdrop.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_default_code/consts/colors.dart';
@@ -142,9 +143,10 @@ class _HomeState extends State<Home> {
               ),
             ),
             Container(
-              height: 210,
+              height: 200,
               width: MediaQuery.of(context).size.width * .95,
               child: Swiper(
+                itemHeight: 200,
                 itemBuilder: (BuildContext context,int index){
                   return Image.asset(_brandImages[index],fit: BoxFit.fill,);
                 },
@@ -157,8 +159,9 @@ class _HomeState extends State<Home> {
                   );
                 },
                 outer: true,
+                viewportFraction: 0.8,
+                scale: 0.9,
                 itemCount: _brandImages.length,
-                pagination: SwiperPagination(),
                 control: SwiperControl(),
               ),
             ),
