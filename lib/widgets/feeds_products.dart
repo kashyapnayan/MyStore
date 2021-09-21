@@ -3,7 +3,21 @@ import 'package:badges/badges.dart';
 import 'package:flutter_default_code/screens/product_details.dart';
 
 class FeedsProducts extends StatefulWidget {
-  const FeedsProducts({Key? key}) : super(key: key);
+  const FeedsProducts(
+      {Key? key,
+        required this.id,
+        required this.description,
+        required this.price,
+        required this.imageUrl,
+        required this.quantity,
+        required this.isFavourite})
+      : super(key: key);
+  final String id;
+  final String description;
+  final double price;
+  final String imageUrl;
+  final int quantity;
+  final bool isFavourite;
 
   @override
   _FeedsProductsState createState() => _FeedsProductsState();
@@ -13,7 +27,7 @@ class _FeedsProductsState extends State<FeedsProducts> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: ()=> Navigator.pushNamed(context, ProductDetails.routeName),
+      onTap: () => Navigator.pushNamed(context, ProductDetails.routeName),
       child: Container(
         width: 250,
         height: 270,
@@ -33,8 +47,8 @@ class _FeedsProductsState extends State<FeedsProducts> {
                         color: Colors.red,
                         height: MediaQuery.of(context).size.height * 0.3,
                         child: Image.network(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4PdHtXka2-bDDww6Nuect3Mt9IwpE4v4HNw&usqp=CAU',
-                            fit: BoxFit.fill,
+                          widget.imageUrl,
+                          fit: BoxFit.fill,
                         ),
                       ),
                     ),
@@ -47,10 +61,10 @@ class _FeedsProductsState extends State<FeedsProducts> {
                         toAnimate: true,
                         shape: BadgeShape.square,
                         badgeColor: Colors.pink,
-                        borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(8)),
-                        badgeContent: Text('New',
-                            style: TextStyle(color: Colors.white)),
+                        borderRadius:
+                            BorderRadius.only(bottomRight: Radius.circular(8)),
+                        badgeContent:
+                            Text('New', style: TextStyle(color: Colors.white)),
                       ),
                     ),
                   ],
@@ -67,7 +81,7 @@ class _FeedsProductsState extends State<FeedsProducts> {
                     height: 4,
                   ),
                   Text(
-                    'description',
+                    widget.description,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
@@ -78,7 +92,7 @@ class _FeedsProductsState extends State<FeedsProducts> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
-                      '\$ 60',
+                      '\$ ${widget.price}',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       style: TextStyle(
@@ -91,7 +105,7 @@ class _FeedsProductsState extends State<FeedsProducts> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '4',
+                        '${widget.quantity}',
                         style: TextStyle(
                             fontSize: 12,
                             color: Colors.grey,

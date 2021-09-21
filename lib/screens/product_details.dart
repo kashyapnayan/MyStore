@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/colors.dart';
 import 'package:flutter_default_code/consts/my_icons.dart';
+import 'package:flutter_default_code/models/product.dart';
 import 'package:flutter_default_code/provider/dark_theme_provider.dart';
 import 'package:flutter_default_code/widgets/feeds_products.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +19,109 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-  List<int> productsList = [1,2,5,2,56,5,5];
+  List<Product> productsList = [
+    Product(
+        id: 'Samsung1',
+        title: 'Samsung Galaxy S9',
+        description:
+        'Samsung Galaxy S9 G960U 64GB Unlocked GSM 4G LTE Phone w/ 12MP Camera - Midnight Black',
+        price: 50.99,
+        imageUrl:
+        'https://images-na.ssl-images-amazon.com/images/I/81%2Bh9mpyQmL._AC_SL1500_.jpg',
+        brand: 'Samsung',
+        productCategoryName: 'Phones',
+        quantity: 65,
+        isFavourite: false,
+        isPopular: false),
+    Product(
+        id: 'Samsung Galaxy A10s',
+        title: 'Samsung Galaxy A10s',
+        description:
+        'Samsung Galaxy A10s A107M - 32GB, 6.2" HD+ Infinity-V Display, 13MP+2MP Dual Rear +8MP Front Cameras, GSM Unlocked Smartphone - Blue.',
+        price: 50.99,
+        imageUrl:
+        'https://images-na.ssl-images-amazon.com/images/I/51ME-ADMjRL._AC_SL1000_.jpg',
+        brand: 'Samsung ',
+        productCategoryName: 'Phones',
+        quantity: 1002,
+        isFavourite: true,
+        isPopular: false),
+    Product(
+        id: 'Samsung Galaxy A51',
+        title: 'Samsung Galaxy A51',
+        description:
+        'Samsung Galaxy A51 (128GB, 4GB) 6.5", 48MP Quad Camera, Dual SIM GSM Unlocked A515F/DS- Global 4G LTE International Model - Prism Crush Blue.',
+        price: 50.99,
+        imageUrl:
+        'https://images-na.ssl-images-amazon.com/images/I/61HFJwSDQ4L._AC_SL1000_.jpg',
+        brand: 'Samsung',
+        productCategoryName: 'Phones',
+        quantity: 6423,
+        isFavourite: true,
+        isPopular: true),
+    Product(
+        id: 'Huawei P40 Pro',
+        title: 'Huawei P40 Pro',
+        description:
+        'Huawei P40 Pro (5G) ELS-NX9 Dual/Hybrid-SIM 256GB (GSM Only | No CDMA) Factory Unlocked Smartphone (Silver Frost) - International Version',
+        price: 900.99,
+        imageUrl:
+        'https://images-na.ssl-images-amazon.com/images/I/6186cnZIdoL._AC_SL1000_.jpg',
+        brand: 'Huawei',
+        productCategoryName: 'Phones',
+        quantity: 3,
+        isFavourite: false,
+        isPopular: true),
+    Product(
+        id: 'iPhone 12 Pro',
+        title: 'iPhone 12 Pro',
+        description:
+        'New Apple iPhone 12 Pro (512GB, Gold) [Locked] + Carrier Subscription',
+        price: 1100,
+        imageUrl: 'https://m.media-amazon.com/images/I/71cSV-RTBSL.jpg',
+        brand: 'Apple',
+        productCategoryName: 'Phones',
+        quantity: 3,
+        isFavourite: false,
+        isPopular: true),
+    Product(
+        id: 'iPhone 12 Pro Max ',
+        title: 'iPhone 12 Pro Max ',
+        description:
+        'New Apple iPhone 12 Pro Max (128GB, Graphite) [Locked] + Carrier Subscription',
+        price: 50.99,
+        imageUrl:
+        'https://m.media-amazon.com/images/I/71XXJC7V8tL._FMwebp__.jpg',
+        brand: 'Apple',
+        productCategoryName: 'Phones',
+        quantity: 2654,
+        isFavourite: true,
+        isPopular: false),
+    Product(
+        id: 'Hanes Mens ',
+        title: 'Long Sleeve Beefy Henley Shirt',
+        description: 'Hanes Men\'s Long Sleeve Beefy Henley Shirt ',
+        price: 22.30,
+        imageUrl:
+        'https://images-na.ssl-images-amazon.com/images/I/91YHIgoKb4L._AC_UX425_.jpg',
+        brand: 'No brand',
+        productCategoryName: 'Clothes',
+        quantity: 58466,
+        isFavourite: false,
+        isPopular: true),
+    Product(
+        id: 'Weave Jogger',
+        title: 'Weave Jogger',
+        description: 'Champion Mens Reverse Weave Jogger',
+        price: 58.99,
+        imageUrl:
+        'https://m.media-amazon.com/images/I/71g7tHQt-sL._AC_UL320_.jpg',
+        brand: 'H&M',
+        productCategoryName: 'Clothes',
+        quantity: 84894,
+        isFavourite: false,
+        isPopular: false),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -227,13 +330,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                   width: double.infinity,
                   height: 340,
                   child: ListView.builder(
-                    itemCount:
-                    productsList.length < 7 ? productsList.length : 7,
+                    itemCount: productsList.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext ctx, int index) {
                       return Container(
                           margin: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
-                          child: FeedsProducts());
+                          child: FeedsProducts(
+                            id: productsList[index].id,
+                            description: productsList[index].description,
+                            price: productsList[index].price,
+                            imageUrl: productsList[index].imageUrl,
+                            quantity: productsList[index].quantity,
+                            isFavourite: productsList[index].isFavourite,
+                          ));
                     },
                   ),
                 ),
