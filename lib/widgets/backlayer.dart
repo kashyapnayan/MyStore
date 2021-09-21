@@ -122,10 +122,10 @@ class BackLayerMenu extends StatelessWidget {
                 content(context, () {
                   navigateTo(context, Feeds.routeName);
                 }, 'Wishlist', 2),
-                // const SizedBox(height: 10.0),
-                // content(context, () {
-                //   navigateTo(context, UploadProductForm.routeName);
-                // }, 'Upload a new product', 3),
+                const SizedBox(height: 10.0),
+                content(context, () {
+                  navigateTo(context, Feeds.routeName);
+                }, 'Upload a new product', 3),
               ],
             ),
           ),

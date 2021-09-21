@@ -3,6 +3,7 @@ import 'package:flutter_default_code/consts/theme_data.dart';
 import 'package:flutter_default_code/provider/dark_theme_provider.dart';
 import 'package:flutter_default_code/screens/cart/cart.dart';
 import 'package:flutter_default_code/screens/feeds.dart';
+import 'package:flutter_default_code/screens/wishlist/wishlist.dart';
 import 'package:provider/provider.dart';
 
 import 'screens/bottom_bar.dart';
@@ -49,6 +50,7 @@ class _MyAppState extends State<MyApp> {
                 BrandNavigationRailScreen(),
             Cart.routeName: (ctx) => Cart(),
             Feeds.routeName: (ctx) => Feeds(),
+            Wishlist.routeName: (ctx) => Wishlist(),
             BottomBarScreen.routeName: (ctx) => BottomBarScreen(),
           },
         );

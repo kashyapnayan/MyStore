@@ -6,6 +6,7 @@ import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:provider/provider.dart';
 
 import 'cart/cart.dart';
+import 'wishlist/wishlist.dart';
 
 class UserInfo extends StatefulWidget {
   const UserInfo({Key? key}) : super(key: key);
@@ -129,7 +130,7 @@ class _UserInfoState extends State<UserInfo> {
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () => Navigator.of(context).pushNamed(Cart.routeName),
+                        onTap: () => Navigator.of(context).pushNamed(Wishlist.routeName),
                         splashColor: Colors.red,
                         child: ListTile(
                           title: Text('Wishlist'),
