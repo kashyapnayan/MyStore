@@ -29,7 +29,7 @@ class _WishlistDataState extends State<WishlistData> {
                   children: <Widget>[
                     Container(
                       height: 80,
-                      child: Image.network('https://i.gadgets360cdn.com/products/large/realme-watch-670x800-1590388807.jpg'),
+                      child: Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4PdHtXka2-bDDww6Nuect3Mt9IwpE4v4HNw&usqp=CAU'),
                     ),
                     SizedBox(
                       width: 10.0,

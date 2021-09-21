@@ -3,6 +3,7 @@ import 'package:flutter_default_code/consts/theme_data.dart';
 import 'package:flutter_default_code/provider/dark_theme_provider.dart';
 import 'package:flutter_default_code/screens/cart/cart.dart';
 import 'package:flutter_default_code/screens/feeds.dart';
+import 'package:flutter_default_code/screens/product_details.dart';
 import 'package:flutter_default_code/screens/wishlist/wishlist.dart';
 import 'package:provider/provider.dart';
 
@@ -51,6 +52,7 @@ class _MyAppState extends State<MyApp> {
             Cart.routeName: (ctx) => Cart(),
             Feeds.routeName: (ctx) => Feeds(),
             Wishlist.routeName: (ctx) => Wishlist(),
+            ProductDetails.routeName: (ctx) => ProductDetails(),
             BottomBarScreen.routeName: (ctx) => BottomBarScreen(),
           },
         );
