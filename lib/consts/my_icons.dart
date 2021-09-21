@@ -9,4 +9,6 @@ class MyAppIcons{
   static IconData cart = Icons.shopping_cart;
   static IconData bag = Ionicons.bag;
   static IconData trash = Ionicons.trash;
+  static IconData wishlist = Ionicons.heart_circle_outline;
+  static IconData upload = Ionicons.cloud_upload;
 }

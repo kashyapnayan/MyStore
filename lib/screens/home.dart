@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_default_code/consts/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_default_code/widgets/backlayer.dart';
 import 'package:flutter_default_code/widgets/category.dart';
 import 'package:flutter_default_code/widgets/popular_products.dart';
+
+import 'inner_screens/brands_navigation_rail_copy.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -27,9 +30,9 @@ class _HomeState extends State<Home> {
     'assets/apple.jpg',
     'assets/Dell.jpg',
     'assets/h&m.jpg',
-    'assets/Huawei.jpg',
     'assets/nike.jpg',
     'assets/samsung.jpg',
+    'assets/Huawei.jpg',
   ];
 
   @override
@@ -61,16 +64,14 @@ class _HomeState extends State<Home> {
               child: CircleAvatar(
                 radius: 13,
                 backgroundImage: NetworkImage(
-                  'https://t3.ftcdn.net/jpg/01/83/55/76/240_F_183557656_DRcvOesmfDl5BIyhPKrcWANFKy2964i9.jpg'
+                    'https://cdn1.vectorstock.com/i/thumb-large/62/60/default-avatar-photo-placeholder-profile-image-vector-21666260.jpg'
                 ),
               ),
             ),
           )
         ],
       ),
-      backLayer: Center(
-        child: Text("Back Layer"),
-      ),
+      backLayer: BackLayerMenu(),
       frontLayer: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -126,7 +127,12 @@ class _HomeState extends State<Home> {
                   ),
                   TextButton(
                     onPressed: (){
-
+                      Navigator.of(context).pushNamed(
+                        BrandNavigationRailScreen.routeName,
+                        arguments: {
+                          7,
+                        },
+                      );
                     },
                     child: Text('View All',
                       style: TextStyle(fontWeight: FontWeight.w800,fontSize: 15, color: Colors.red),
@@ -141,6 +147,14 @@ class _HomeState extends State<Home> {
               child: Swiper(
                 itemBuilder: (BuildContext context,int index){
                   return Image.asset(_brandImages[index],fit: BoxFit.fill,);
+                },
+                onTap :(index){
+                  Navigator.of(context).pushNamed(
+                    BrandNavigationRailScreen.routeName,
+                    arguments: {
+                      index,
+                    },
+                  );
                 },
                 outer: true,
                 itemCount: _brandImages.length,

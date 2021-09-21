@@ -6,6 +6,7 @@ import 'package:flutter_default_code/screens/feeds.dart';
 import 'package:provider/provider.dart';
 
 import 'screens/bottom_bar.dart';
+import 'screens/inner_screens/brands_navigation_rail_copy.dart';
 
 void main() {
   runApp(MyApp());
@@ -44,6 +45,8 @@ class _MyAppState extends State<MyApp> {
           home: BottomBarScreen(),
           routes: {
             //   '/': (ctx) => LandingPage(),
+            BrandNavigationRailScreen.routeName: (ctx) =>
+                BrandNavigationRailScreen(),
             Cart.routeName: (ctx) => Cart(),
             Feeds.routeName: (ctx) => Feeds(),
             BottomBarScreen.routeName: (ctx) => BottomBarScreen(),
