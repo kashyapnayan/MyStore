@@ -658,4 +658,8 @@ class ProductsProvider with ChangeNotifier {
     return _categoryList;
   }
 
+  Product findProductById(String productId) {
+    return _products.firstWhere((element) => element.id == productId);
+  }
+
 }

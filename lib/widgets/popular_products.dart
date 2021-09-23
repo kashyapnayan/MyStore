@@ -35,7 +35,8 @@ class _PopularProductsState extends State<PopularProducts> {
               ),
               bottomRight: Radius.circular(10.0),
             ),
-            onTap: () => Navigator.pushNamed(context, ProductDetails.routeName),
+            onTap: () => Navigator.pushNamed(context, ProductDetails.routeName,
+                arguments: productsAttributes.id),
             child: Column(
               children: [
                 Stack(

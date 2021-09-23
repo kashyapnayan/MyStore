@@ -5,8 +5,6 @@ import 'package:flutter_default_code/screens/product_details.dart';
 import 'package:provider/provider.dart';
 
 class FeedsProducts extends StatefulWidget {
-
-
   @override
   _FeedsProductsState createState() => _FeedsProductsState();
 }
@@ -16,7 +14,8 @@ class _FeedsProductsState extends State<FeedsProducts> {
   Widget build(BuildContext context) {
     final productsAttributes = Provider.of<Product>(context);
     return InkWell(
-      onTap: () => Navigator.pushNamed(context, ProductDetails.routeName),
+      onTap: () => Navigator.pushNamed(context, ProductDetails.routeName,
+          arguments: productsAttributes.id),
       child: Container(
         width: 250,
         height: 270,
