@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_default_code/models/product.dart';
+import 'package:flutter_default_code/screens/product_details.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
 
 class PopularProducts extends StatefulWidget {
-  const PopularProducts({Key? key}) : super(key: key);
-
   @override
   _PopularProductsState createState() => _PopularProductsState();
 }
@@ -11,6 +12,7 @@ class PopularProducts extends StatefulWidget {
 class _PopularProductsState extends State<PopularProducts> {
   @override
   Widget build(BuildContext context) {
+    final productsAttributes = Provider.of<Product>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -33,7 +35,7 @@ class _PopularProductsState extends State<PopularProducts> {
               ),
               bottomRight: Radius.circular(10.0),
             ),
-            onTap: (){},
+            onTap: () => Navigator.pushNamed(context, ProductDetails.routeName),
             child: Column(
               children: [
                 Stack(
@@ -42,16 +44,13 @@ class _PopularProductsState extends State<PopularProducts> {
                       height: 170,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: NetworkImage('https://i.gadgets360cdn.com/products/large/realme-watch-670x800-1590388807.jpg'),
+                              image: NetworkImage(productsAttributes.imageUrl),
                               fit: BoxFit.contain)),
                     ),
                     Positioned(
                       right: 10,
                       top: 8,
-                      child: Icon(
-                        Ionicons.star,
-                        color: Colors.red
-                      ),
+                      child: Icon(Ionicons.star, color: Colors.red),
                     ),
                     Positioned(
                       right: 10,
@@ -68,7 +67,7 @@ class _PopularProductsState extends State<PopularProducts> {
                         padding: EdgeInsets.all(10.0),
                         color: Theme.of(context).backgroundColor,
                         child: Text(
-                          '\$ 60',
+                          '\$ ${productsAttributes.price}',
                           style: TextStyle(
                             color: Theme.of(context).textSelectionColor,
                           ),
@@ -83,7 +82,7 @@ class _PopularProductsState extends State<PopularProducts> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Product title',
+                        '${productsAttributes.title}',
                         maxLines: 1,
                         style: TextStyle(
                             fontSize: 18.0, fontWeight: FontWeight.bold),
@@ -94,7 +93,7 @@ class _PopularProductsState extends State<PopularProducts> {
                           Expanded(
                             flex: 5,
                             child: Text(
-                              'Description',
+                              '${productsAttributes.description}',
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -110,7 +109,7 @@ class _PopularProductsState extends State<PopularProducts> {
                             child: Material(
                               color: Colors.transparent,
                               child: InkWell(
-                                onTap: (){},
+                                onTap: () {},
                                 borderRadius: BorderRadius.circular(30.0),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),

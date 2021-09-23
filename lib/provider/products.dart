@@ -637,6 +637,10 @@ class ProductsProvider with ChangeNotifier {
     return _products;
   }
 
+  List<Product> get popularProducts {
+    return _products.where((element) => element.isPopular).toList();
+  }
+
   List<Product> findByCategory(String categoryName) {
     List<Product> _categoryList = _products
         .where((element) => element.productCategoryName
@@ -653,4 +657,5 @@ class ProductsProvider with ChangeNotifier {
         .toList();
     return _categoryList;
   }
+
 }

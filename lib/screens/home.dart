@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_default_code/consts/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_default_code/provider/products.dart';
 import 'package:flutter_default_code/widgets/backlayer.dart';
 import 'package:flutter_default_code/widgets/category.dart';
 import 'package:flutter_default_code/widgets/popular_products.dart';
+import 'package:provider/provider.dart';
 
 import 'inner_screens/brands_navigation_rail.dart';
 
@@ -38,6 +40,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final productsProvider = Provider.of<ProductsProvider>(context);
+    final popularProducts = productsProvider.popularProducts;
     return BackdropScaffold(
       frontLayerBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
       headerHeight: MediaQuery.of(context).size.height * 0.25,
@@ -191,9 +195,11 @@ class _HomeState extends State<Home> {
               margin: EdgeInsets.symmetric(horizontal: 3),
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 8,
+                  itemCount: popularProducts.length,
                   itemBuilder: (BuildContext context, int index){
-                    return PopularProducts();
+                    return ChangeNotifierProvider.value(
+                        value: popularProducts[index],
+                        child: PopularProducts());
                   }),
             ),
           ],
