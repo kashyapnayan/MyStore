@@ -1,23 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
+import 'package:flutter_default_code/models/product.dart';
 import 'package:flutter_default_code/screens/product_details.dart';
+import 'package:provider/provider.dart';
 
 class FeedsProducts extends StatefulWidget {
-  const FeedsProducts(
-      {Key? key,
-        required this.id,
-        required this.description,
-        required this.price,
-        required this.imageUrl,
-        required this.quantity,
-        required this.isFavourite})
-      : super(key: key);
-  final String id;
-  final String description;
-  final double price;
-  final String imageUrl;
-  final int quantity;
-  final bool isFavourite;
+
 
   @override
   _FeedsProductsState createState() => _FeedsProductsState();
@@ -26,6 +14,7 @@ class FeedsProducts extends StatefulWidget {
 class _FeedsProductsState extends State<FeedsProducts> {
   @override
   Widget build(BuildContext context) {
+    final productsAttributes = Provider.of<Product>(context);
     return InkWell(
       onTap: () => Navigator.pushNamed(context, ProductDetails.routeName),
       child: Container(
@@ -47,7 +36,7 @@ class _FeedsProductsState extends State<FeedsProducts> {
                         color: Colors.red,
                         height: MediaQuery.of(context).size.height * 0.3,
                         child: Image.network(
-                          widget.imageUrl,
+                          productsAttributes.imageUrl,
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -81,7 +70,7 @@ class _FeedsProductsState extends State<FeedsProducts> {
                     height: 4,
                   ),
                   Text(
-                    widget.description,
+                    productsAttributes.description,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
@@ -92,7 +81,7 @@ class _FeedsProductsState extends State<FeedsProducts> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
-                      '\$ ${widget.price}',
+                      '\$ ${productsAttributes.price}',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       style: TextStyle(
@@ -105,7 +94,7 @@ class _FeedsProductsState extends State<FeedsProducts> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '${widget.quantity}',
+                        '${productsAttributes.quantity}',
                         style: TextStyle(
                             fontSize: 12,
                             color: Colors.grey,

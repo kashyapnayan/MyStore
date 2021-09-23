@@ -335,14 +335,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                     itemBuilder: (BuildContext ctx, int index) {
                       return Container(
                           margin: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
-                          child: FeedsProducts(
-                            id: productsList[index].id,
-                            description: productsList[index].description,
-                            price: productsList[index].price,
-                            imageUrl: productsList[index].imageUrl,
-                            quantity: productsList[index].quantity,
-                            isFavourite: productsList[index].isFavourite,
-                          ));
+                          child: ChangeNotifierProvider.value(
+                              value: productsList[index],
+                              child: FeedsProducts()
+                          )
+                      );
                     },
                   ),
                 ),
