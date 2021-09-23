@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_default_code/screens/feeds.dart';
+import 'package:flutter_default_code/screens/inner_screens/categories_feeds.dart';
 
 class CategoryWidget extends StatefulWidget {
   final int index;
-  const CategoryWidget({Key? key,required this.index}) : super(key: key);
+  const CategoryWidget({Key? key, required this.index}) : super(key: key);
 
   @override
   _CategoryWidgetState createState() => _CategoryWidgetState();
 }
 
 class _CategoryWidgetState extends State<CategoryWidget> {
-
   var categories;
   @override
   void initState() {
     super.initState();
     categories = [
-      {
-        'categoryName': 'Phones',
-        'categoryImagesPath': 'assets/CatPhones.png'
-      },
-      {
-        'categoryName': 'Beauty',
-        'categoryImagesPath': 'assets/CatBeauty.jpg'
-      },
+      {'categoryName': 'Phones', 'categoryImagesPath': 'assets/CatPhones.png'},
+      {'categoryName': 'Beauty', 'categoryImagesPath': 'assets/CatBeauty.jpg'},
       {
         'categoryName': 'Clothes',
         'categoryImagesPath': 'assets/CatClothes.jpg'
@@ -35,10 +30,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
         'categoryName': 'Laptops',
         'categoryImagesPath': 'assets/CatLaptops.png'
       },
-      {
-        'categoryName': 'Shoes',
-        'categoryImagesPath': 'assets/CatShoes.jpg'
-      },
+      {'categoryName': 'Shoes', 'categoryImagesPath': 'assets/CatShoes.jpg'},
       {
         'categoryName': 'Watches',
         'categoryImagesPath': 'assets/CatWatches.jpg'
@@ -51,14 +43,16 @@ class _CategoryWidgetState extends State<CategoryWidget> {
     return Stack(
       children: [
         InkWell(
-          onTap: (){
-
+          onTap: () {
+            Navigator.pushNamed(context, CategoriesFeeds.routeName,
+                arguments: categories[widget.index]['categoryName']);
           },
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
-                  image: AssetImage(categories[widget.index]['categoryImagesPath']),
+                  image: AssetImage(
+                      categories[widget.index]['categoryImagesPath']),
                   fit: BoxFit.cover),
             ),
             margin: EdgeInsets.symmetric(horizontal: 10),

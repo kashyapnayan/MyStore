@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import 'screens/bottom_bar.dart';
 import 'screens/inner_screens/brands_navigation_rail_copy.dart';
+import 'screens/inner_screens/categories_feeds.dart';
 
 void main() {
   runApp(MyApp());
@@ -56,6 +57,7 @@ class _MyAppState extends State<MyApp> {
             Wishlist.routeName: (ctx) => Wishlist(),
             ProductDetails.routeName: (ctx) => ProductDetails(),
             BottomBarScreen.routeName: (ctx) => BottomBarScreen(),
+            CategoriesFeeds.routeName: (ctx) => CategoriesFeeds(),
           },
         );
       }),

@@ -638,4 +638,8 @@ class ProductsProvider with ChangeNotifier{
     return _products;
   }
 
+  List<Product> findByCategory(String categoryName){
+    List<Product> _categoryList = _products.where((element) => element.productCategoryName.toLowerCase().contains(categoryName.toLowerCase())).toList();
+    return _categoryList;
+  }
 }
