@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_default_code/models/product.dart';
+import 'package:provider/provider.dart';
+
+import '../product_details.dart';
 
 class BrandsNavigationRail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final productsAttributes = Provider.of<Product>(context);
     return InkWell(
-      onTap: () {},
+      onTap: () => Navigator.pushNamed(context, ProductDetails.routeName),
       child: Container(
         padding: EdgeInsets.only(left: 5.0, right: 5.0),
         margin: EdgeInsets.only(right: 20.0, bottom: 5, top: 18),
@@ -18,7 +23,7 @@ class BrandsNavigationRail extends StatelessWidget {
                   color: Theme.of(context).backgroundColor,
                   image: DecorationImage(
                       image: NetworkImage(
-                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4PdHtXka2-bDDww6Nuect3Mt9IwpE4v4HNw&usqp=CAU',
+                        productsAttributes.imageUrl,
                       ),
                       fit: BoxFit.contain),
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -51,7 +56,7 @@ class BrandsNavigationRail extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'title',
+                      productsAttributes.title,
                       maxLines: 4,
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
@@ -61,7 +66,7 @@ class BrandsNavigationRail extends StatelessWidget {
                       height: 20.0,
                     ),
                     FittedBox(
-                      child: Text('US 16 \$',
+                      child: Text('US ${productsAttributes.price} \$',
                           maxLines: 1,
                           style: TextStyle(
                             color: Colors.red,
@@ -71,7 +76,7 @@ class BrandsNavigationRail extends StatelessWidget {
                     SizedBox(
                       height: 20.0,
                     ),
-                    Text('CatergoryName',
+                    Text('${productsAttributes.quantity}',
                         style: TextStyle(color: Colors.grey, fontSize: 18.0)),
                     SizedBox(
                       height: 20.0,

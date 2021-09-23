@@ -9,7 +9,7 @@ import 'package:flutter_default_code/widgets/backlayer.dart';
 import 'package:flutter_default_code/widgets/category.dart';
 import 'package:flutter_default_code/widgets/popular_products.dart';
 
-import 'inner_screens/brands_navigation_rail_copy.dart';
+import 'inner_screens/brands_navigation_rail.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
