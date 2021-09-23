@@ -11,6 +11,7 @@ import 'package:flutter_default_code/widgets/category.dart';
 import 'package:flutter_default_code/widgets/popular_products.dart';
 import 'package:provider/provider.dart';
 
+import 'feeds.dart';
 import 'inner_screens/brands_navigation_rail.dart';
 
 class Home extends StatefulWidget {
@@ -179,9 +180,7 @@ class _HomeState extends State<Home> {
                     style: TextStyle(fontWeight: FontWeight.w800,fontSize: 20),
                   ),
                   TextButton(
-                    onPressed: (){
-
-                    },
+                    onPressed: ()=> Navigator.pushNamed(context, Feeds.routeName,arguments: 'popular'),
                     child: Text('View All',
                       style: TextStyle(fontWeight: FontWeight.w800,fontSize: 15, color: Colors.red),
                     ),

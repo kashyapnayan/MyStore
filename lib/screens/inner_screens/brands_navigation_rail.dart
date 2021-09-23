@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_default_code/models/product.dart';
 import 'package:flutter_default_code/provider/products.dart';
 import 'package:provider/provider.dart';
 
@@ -206,7 +207,12 @@ class ContentSpace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productData = Provider.of<ProductsProvider>(context);
-    final productsByBrandName = productData.findByBrandName(brand);
+    late List<Product> productsByBrandName;
+    if(brand == 'All'){
+      productsByBrandName = productData.products;
+    }else{
+      productsByBrandName = productData.findByBrandName(brand);
+    }
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(24, 8, 0, 0),

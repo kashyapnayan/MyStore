@@ -12,7 +12,13 @@ class Feeds extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productsProvider = Provider.of<ProductsProvider>(context);
-    List<Product> productsList = productsProvider.products;
+    final popular = ModalRoute.of(context)!.settings.arguments;
+    late List<Product> productsList;
+    if(popular == 'popular'){
+      productsList = productsProvider.popularProducts;
+    }else{
+      productsList = productsProvider.products;
+    }
     return Scaffold(
       // body: StaggeredGridView.countBuilder(
       //   padding: const EdgeInsets.all(8.0),
