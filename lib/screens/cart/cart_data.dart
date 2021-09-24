@@ -142,11 +142,8 @@ class _CartDataState extends State<CartData> {
                             onTap: cartAttributes.quantity < 2
                                 ? null
                                 : () {
-                                    cartProvider.reduceItemByOne(
-                                        widget.productId,
-                                        cartAttributes.price,
-                                        cartAttributes.title,
-                                        cartAttributes.imageUrl);
+                                    cartProvider
+                                        .reduceItemByOne(widget.productId);
                                   },
                             child: Container(
                               child: Padding(
