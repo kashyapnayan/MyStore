@@ -13,6 +13,7 @@ import 'provider/products_provider.dart';
 import 'screens/bottom_bar.dart';
 import 'screens/inner_screens/brands_navigation_rail.dart';
 import 'screens/inner_screens/categories_feeds.dart';
+import 'screens/landing_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -51,7 +52,7 @@ class _MyAppState extends State<MyApp> {
         return MaterialApp(
           title: 'Flutter Demo',
           theme: Styles.themeData(themeChangeProvider.darkTheme, context),
-          home: BottomBarScreen(),
+          home: LandingPage(),
           routes: {
             //   '/': (ctx) => LandingPage(),
             BrandNavigationRailScreen.routeName: (ctx) =>
