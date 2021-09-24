@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/colors.dart';
 import 'package:flutter_default_code/models/cart_attributes.dart';
+import 'package:flutter_default_code/provider/cart_provider.dart';
 import 'package:flutter_default_code/provider/dark_theme_provider.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +9,6 @@ import 'package:provider/provider.dart';
 import '../product_details.dart';
 
 class CartData extends StatefulWidget {
-
   final String productId;
 
   const CartData({required this.productId});
@@ -21,6 +21,7 @@ class _CartDataState extends State<CartData> {
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
     final cartAttributes = Provider.of<CartAttributes>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
     double subTotal = cartAttributes.price * cartAttributes.quantity;
 
     return InkWell(
@@ -104,7 +105,7 @@ class _CartDataState extends State<CartData> {
                         ),
                         FittedBox(
                           child: Text(
-                            '$subTotal \$',
+                            '${subTotal.toStringAsFixed(2)} \$',
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -130,13 +131,23 @@ class _CartDataState extends State<CartData> {
                           child: InkWell(
                             borderRadius: BorderRadius.circular(4.0),
                             // splashColor: ,
-                            onTap: () {},
+                            onTap: cartAttributes.quantity < 2
+                                ? null
+                                : () {
+                                    cartProvider.reduceItemByOne(
+                                        widget.productId,
+                                        cartAttributes.price,
+                                        cartAttributes.title,
+                                        cartAttributes.imageUrl);
+                                  },
                             child: Container(
                               child: Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: Icon(
                                   Ionicons.remove_outline,
-                                  color: Colors.red,
+                                  color: cartAttributes.quantity < 2
+                                      ? Colors.grey
+                                      : Colors.red,
                                   size: 22,
                                 ),
                               ),
@@ -167,7 +178,13 @@ class _CartDataState extends State<CartData> {
                           color: Colors.transparent,
                           child: InkWell(
                             borderRadius: BorderRadius.circular(4.0),
-                            onTap: () {},
+                            onTap: () {
+                              cartProvider.addProductToCart(
+                                  widget.productId,
+                                  cartAttributes.price,
+                                  cartAttributes.title,
+                                  cartAttributes.imageUrl);
+                            },
                             child: Container(
                               child: Padding(
                                 padding: const EdgeInsets.all(5.0),
