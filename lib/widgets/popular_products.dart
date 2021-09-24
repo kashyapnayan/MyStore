@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/models/product.dart';
 import 'package:flutter_default_code/provider/cart_provider.dart';
+import 'package:flutter_default_code/provider/fav_provider.dart';
 import 'package:flutter_default_code/screens/product_details.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ class _PopularProductsState extends State<PopularProducts> {
   Widget build(BuildContext context) {
     final productsAttributes = Provider.of<Product>(context);
     final cartProvider = Provider.of<CartProvider>(context);
+    final favProvider = Provider.of<FavProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -53,15 +55,16 @@ class _PopularProductsState extends State<PopularProducts> {
                     Positioned(
                       right: 10,
                       top: 8,
-                      child: Icon(Ionicons.star, color: Colors.red),
-                    ),
-                    Positioned(
-                      right: 10,
-                      top: 8,
                       child: Icon(
-                        Ionicons.star_outline,
-                        color: Colors.white,
-                      ),
+                          favProvider.getFavItems
+                                  .containsKey(productsAttributes.id)
+                              ? Ionicons.star
+                              : Ionicons.star_outline,
+                          size: 16,
+                          color: favProvider.getFavItems
+                                  .containsKey(productsAttributes.id)
+                              ? Colors.red
+                              : Colors.grey),
                     ),
                     Positioned(
                       right: 12,
