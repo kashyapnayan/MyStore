@@ -271,42 +271,47 @@ class _ProductDetailsState extends State<ProductDetails> {
                       TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal),
                 ),
                 actions: <Widget>[
-                  Badge(
-                    badgeColor: ColorsConsts.cartBadgeColor,
-                    animationType: BadgeAnimationType.slide,
-                    toAnimate: true,
-                    position: BadgePosition.topEnd(top: 5, end: 7),
-                    badgeContent: Text(
-                      '1',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    child: IconButton(
-                      icon: Icon(
-                        MyAppIcons.wishlist,
-                        color: ColorsConsts.favColor,
+                  Consumer<FavProvider>(
+                    builder: (_, favs, ch) => Badge(
+                      badgeColor: ColorsConsts.cartBadgeColor,
+                      animationType: BadgeAnimationType.slide,
+                      toAnimate: true,
+                      position: BadgePosition.topEnd(top: 5, end: 7),
+                      badgeContent: Text(
+                        favs.getFavItems.length.toString(),
+                        style: TextStyle(color: Colors.white),
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(Wishlist.routeName);
-                      },
+                      child: IconButton(
+                        icon: Icon(
+                          MyAppIcons.wishlist,
+                          color: ColorsConsts.favColor,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushNamed(Wishlist.routeName);
+                        },
+                      ),
                     ),
                   ),
-                  Badge(
-                    badgeColor: ColorsConsts.cartBadgeColor,
-                    animationType: BadgeAnimationType.slide,
-                    toAnimate: true,
-                    position: BadgePosition.topEnd(top: 5, end: 7),
-                    badgeContent: Text(
-                      '1',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    child: IconButton(
-                      icon: Icon(
-                        MyAppIcons.cart,
-                        color: ColorsConsts.cartColor,
+                  Consumer<CartProvider>(
+                    builder: (_, cart, ch) => Badge(
+                      badgeColor: ColorsConsts.cartBadgeColor,
+                      animationType: BadgeAnimationType.slide,
+                      toAnimate: true,
+                      position: BadgePosition.topEnd(top: 5, end: 7),
+                      badgeContent: Text(
+                        cart.getCartItems.length.toString(),
+                        style: TextStyle(color: Colors.white),
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(Cart.routeName);
-                      },
+                      child: IconButton(
+                        icon: Icon(
+                          MyAppIcons.cart,
+                          color: ColorsConsts.cartColor,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(Cart.routeName);
+                        },
+                      ),
                     ),
                   ),
                 ]),
