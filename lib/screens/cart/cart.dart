@@ -106,7 +106,7 @@ class Cart extends StatelessWidget {
                     fontWeight: FontWeight.w600),
               ),
               Text(
-                'US \$${total.toStringAsFixed(3)}',
+                'US \$${total.toStringAsFixed(2)}',
                 //textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.blue,
