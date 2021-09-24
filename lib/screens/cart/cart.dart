@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/colors.dart';
 import 'package:flutter_default_code/consts/my_icons.dart';
+import 'package:flutter_default_code/provider/cart_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'cart_data.dart';
 import 'cart_empty.dart';
@@ -10,8 +12,9 @@ class Cart extends StatelessWidget {
   const Cart({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    List<int> products = [1];
-    return products.isEmpty
+    final cartProvider = Provider.of<CartProvider>(context);
+
+    return cartProvider.getCartItems.isEmpty
         ? Scaffold(
             body: CartEmpty(),
           )
@@ -29,9 +32,11 @@ class Cart extends StatelessWidget {
             body: Container(
               margin: EdgeInsets.only(bottom: 60),
               child: ListView.builder(
-                  itemCount: 6,
+                  itemCount: cartProvider.getCartItems.length,
                   itemBuilder: (BuildContext ctx, int index) {
-                    return CartData();
+                    return ChangeNotifierProvider.value(
+                        value: cartProvider.getCartItems.values.toList()[index],
+                        child: CartData());
                   }),
             ));
   }

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_default_code/consts/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_default_code/provider/products.dart';
+import 'package:flutter_default_code/provider/products_provider.dart';
 import 'package:flutter_default_code/widgets/backlayer.dart';
 import 'package:flutter_default_code/widgets/category.dart';
 import 'package:flutter_default_code/widgets/popular_products.dart';

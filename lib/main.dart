@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/theme_data.dart';
 import 'package:flutter_default_code/provider/dark_theme_provider.dart';
-import 'package:flutter_default_code/provider/products.dart';
 import 'package:flutter_default_code/screens/cart/cart.dart';
 import 'package:flutter_default_code/screens/feeds.dart';
 import 'package:flutter_default_code/screens/product_details.dart';
 import 'package:flutter_default_code/screens/wishlist/wishlist.dart';
 import 'package:provider/provider.dart';
 
+import 'provider/cart_provider.dart';
+import 'provider/products_provider.dart';
 import 'screens/bottom_bar.dart';
 import 'screens/inner_screens/brands_navigation_rail.dart';
 import 'screens/inner_screens/categories_feeds.dart';
@@ -41,7 +42,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) {
           return themeChangeProvider;
         }),
-        ChangeNotifierProvider(create: (_) => ProductsProvider(),)
+        ChangeNotifierProvider(create: (_) => ProductsProvider(),),
+        ChangeNotifierProvider(create: (_) => CartProvider(),),
       ],
       child: Consumer<DarkThemeProvider>(builder: (context, themeData, child) {
         return MaterialApp(

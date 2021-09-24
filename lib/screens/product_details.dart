@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/colors.dart';
 import 'package:flutter_default_code/consts/my_icons.dart';
 import 'package:flutter_default_code/models/product.dart';
+import 'package:flutter_default_code/provider/cart_provider.dart';
 import 'package:flutter_default_code/provider/dark_theme_provider.dart';
-import 'package:flutter_default_code/provider/products.dart';
+import 'package:flutter_default_code/provider/products_provider.dart';
 import 'package:flutter_default_code/widgets/feeds_products.dart';
 import 'package:provider/provider.dart';
 
@@ -24,9 +25,11 @@ class _ProductDetailsState extends State<ProductDetails> {
   Widget build(BuildContext context) {
     final themeState = Provider.of<DarkThemeProvider>(context);
     final productData = Provider.of<ProductsProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
     final productList = productData.products;
     final productId = ModalRoute.of(context)!.settings.arguments as String;
     final productAttribute = productData.findProductById(productId);
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -314,12 +317,20 @@ class _ProductDetailsState extends State<ProductDetails> {
                     height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.redAccent.shade400,
+                        primary: cartProvider.getCartItems.containsKey(productId) ? Colors.grey[500] :Colors.redAccent.shade400,
                         shape: RoundedRectangleBorder(side: BorderSide.none),
                       ),
-                      onPressed: () {},
+                      onPressed: (){
+                        if(!cartProvider.getCartItems.containsKey(productId)){
+                          cartProvider.addProductToCart(
+                              productId,
+                              productAttribute.price,
+                              productAttribute.title,
+                              productAttribute.imageUrl);
+                        }
+                      },
                       child: Text(
-                        'Add to Cart'.toUpperCase(),
+                          cartProvider.getCartItems.containsKey(productId)? 'In Cart' : 'Add to Cart'.toUpperCase(),
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ),

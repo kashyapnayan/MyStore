@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/colors.dart';
+import 'package:flutter_default_code/models/cart_attributes.dart';
 import 'package:flutter_default_code/provider/dark_theme_provider.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 
 class CartData extends StatefulWidget {
-  const CartData({Key? key}) : super(key: key);
-
   @override
   _CartDataState createState() => _CartDataState();
 }
@@ -14,8 +13,9 @@ class CartData extends StatefulWidget {
 class _CartDataState extends State<CartData> {
   @override
   Widget build(BuildContext context) {
-
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    final cartAttributes = Provider.of<CartAttributes>(context);
+    double subTotal = cartAttributes.price * cartAttributes.quantity;
 
     return Container(
       height: 135,
@@ -33,9 +33,7 @@ class _CartDataState extends State<CartData> {
             width: 130,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(
-                  'https://i.gadgets360cdn.com/products/large/realme-watch-670x800-1590388807.jpg'
-                ),
+                image: NetworkImage(cartAttributes.imageUrl),
                 //  fit: BoxFit.fill,
               ),
             ),
@@ -50,7 +48,7 @@ class _CartDataState extends State<CartData> {
                     children: [
                       Flexible(
                         child: Text(
-                          'title',
+                          cartAttributes.title,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -83,8 +81,7 @@ class _CartDataState extends State<CartData> {
                         width: 5,
                       ),
                       Text(
-                        // '${cartAttr.price}\$',
-                        '60\$',
+                        '${cartAttributes.price}\$',
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
@@ -98,8 +95,7 @@ class _CartDataState extends State<CartData> {
                       ),
                       FittedBox(
                         child: Text(
-                          // '${subTotal.toStringAsFixed(2)} \$',
-                          '60 \$',
+                          '$subTotal \$',
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -153,7 +149,7 @@ class _CartDataState extends State<CartData> {
                             ]),
                           ),
                           child: Text(
-                            '2',
+                            '${cartAttributes.quantity}',
                             textAlign: TextAlign.center,
                           ),
                         ),
