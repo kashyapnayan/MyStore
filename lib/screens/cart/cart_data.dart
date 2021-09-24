@@ -3,6 +3,7 @@ import 'package:flutter_default_code/consts/colors.dart';
 import 'package:flutter_default_code/models/cart_attributes.dart';
 import 'package:flutter_default_code/provider/cart_provider.dart';
 import 'package:flutter_default_code/provider/dark_theme_provider.dart';
+import 'package:flutter_default_code/services/global_methods.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 
@@ -70,7 +71,14 @@ class _CartDataState extends State<CartData> {
                           child: InkWell(
                             borderRadius: BorderRadius.circular(32.0),
                             // splashColor: ,
-                            onTap: () {},
+                            onTap: () {
+                              GlobalMethods.showTheDialog(
+                                  'Remove item!',
+                                  'Product will be removed from the cart!',
+                                  () =>
+                                      cartProvider.removeItem(widget.productId),
+                                  context);
+                            },
                             child: Container(
                               height: 50,
                               width: 50,

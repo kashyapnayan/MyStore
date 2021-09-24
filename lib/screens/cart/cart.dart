@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/colors.dart';
 import 'package:flutter_default_code/consts/my_icons.dart';
 import 'package:flutter_default_code/provider/cart_provider.dart';
+import 'package:flutter_default_code/services/global_methods.dart';
 import 'package:provider/provider.dart';
 
 import 'cart_data.dart';
@@ -20,11 +21,18 @@ class Cart extends StatelessWidget {
           )
         : Scaffold(
             appBar: AppBar(
-              title: Text('Cart Item Count'),
+              title: Text('Cart (${cartProvider.getCartItems.length})'),
               actions: [
                 IconButton(
                   icon: Icon(MyAppIcons.trash),
-                  onPressed: () {},
+                  onPressed: () {
+                    GlobalMethods.showTheDialog(
+                        'Clear cart!',
+                        'Your cart will be cleared!',
+                            () =>
+                                cartProvider.clearCart(),
+                        context);
+                  },
                 ),
               ],
             ),
