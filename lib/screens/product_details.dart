@@ -24,7 +24,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   @override
   Widget build(BuildContext context) {
     final themeState = Provider.of<DarkThemeProvider>(context);
-    final productData = Provider.of<ProductsProvider>(context);
+    final productData = Provider.of<ProductsProvider>(context, listen: false);
     final cartProvider = Provider.of<CartProvider>(context);
     final productList = productData.products;
     final productId = ModalRoute.of(context)!.settings.arguments as String;
@@ -317,11 +317,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                     height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: cartProvider.getCartItems.containsKey(productId) ? Colors.grey[500] :Colors.redAccent.shade400,
+                        primary:
+                            cartProvider.getCartItems.containsKey(productId)
+                                ? Colors.grey[500]
+                                : Colors.redAccent.shade400,
                         shape: RoundedRectangleBorder(side: BorderSide.none),
                       ),
-                      onPressed: (){
-                        if(!cartProvider.getCartItems.containsKey(productId)){
+                      onPressed: () {
+                        if (!cartProvider.getCartItems.containsKey(productId)) {
                           cartProvider.addProductToCart(
                               productId,
                               productAttribute.price,
@@ -330,7 +333,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                         }
                       },
                       child: Text(
-                          cartProvider.getCartItems.containsKey(productId)? 'In Cart' : 'Add to Cart'.toUpperCase(),
+                        cartProvider.getCartItems.containsKey(productId)
+                            ? 'In Cart'
+                            : 'Add to Cart'.toUpperCase(),
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ),

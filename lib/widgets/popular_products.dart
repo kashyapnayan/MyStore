@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/models/product.dart';
+import 'package:flutter_default_code/provider/cart_provider.dart';
 import 'package:flutter_default_code/screens/product_details.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,7 @@ class _PopularProductsState extends State<PopularProducts> {
   @override
   Widget build(BuildContext context) {
     final productsAttributes = Provider.of<Product>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -110,12 +112,24 @@ class _PopularProductsState extends State<PopularProducts> {
                             child: Material(
                               color: Colors.transparent,
                               child: InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  if (!cartProvider.getCartItems
+                                      .containsKey(productsAttributes.id)) {
+                                    cartProvider.addProductToCart(
+                                        productsAttributes.id,
+                                        productsAttributes.price,
+                                        productsAttributes.title,
+                                        productsAttributes.imageUrl);
+                                  }
+                                },
                                 borderRadius: BorderRadius.circular(30.0),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Icon(
-                                    Icons.add_shopping_cart,
+                                    cartProvider.getCartItems
+                                            .containsKey(productsAttributes.id)
+                                        ? Icons.check_circle
+                                        : Icons.add_shopping_cart,
                                     size: 25,
                                     color: Colors.black,
                                   ),
