@@ -36,7 +36,7 @@ class Cart extends StatelessWidget {
                 ),
               ],
             ),
-            bottomSheet: checkoutSection(context, 16.5),
+            bottomSheet: checkoutSection(context, cartProvider.totalAmount),
             body: Container(
               margin: EdgeInsets.only(bottom: 60),
               child: ListView.builder(
@@ -51,7 +51,7 @@ class Cart extends StatelessWidget {
             ));
   }
 
-  Widget checkoutSection(BuildContext ctx, double subtotal) {
+  Widget checkoutSection(BuildContext ctx, double total) {
     return Container(
         decoration: BoxDecoration(
           border: Border(
@@ -99,14 +99,14 @@ class Cart extends StatelessWidget {
               ),
               Spacer(),
               Text(
-                'Total:',
+                'Total: ',
                 style: TextStyle(
                     color: Theme.of(ctx).textSelectionColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w600),
               ),
               Text(
-                'US ${subtotal.toStringAsFixed(3)}',
+                'US \$${total.toStringAsFixed(3)}',
                 //textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.blue,
