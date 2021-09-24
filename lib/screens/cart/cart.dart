@@ -36,7 +36,9 @@ class Cart extends StatelessWidget {
                   itemBuilder: (BuildContext ctx, int index) {
                     return ChangeNotifierProvider.value(
                         value: cartProvider.getCartItems.values.toList()[index],
-                        child: CartData());
+                        child: CartData(
+                          productId: cartProvider.getCartItems.keys.toList()[index],
+                        ));
                   }),
             ));
   }
