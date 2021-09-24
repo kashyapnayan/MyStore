@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/colors.dart';
+import 'package:flutter_default_code/models/fav_attributes.dart';
+import 'package:flutter_default_code/provider/fav_provider.dart';
+import 'package:flutter_default_code/services/global_methods.dart';
+import 'package:provider/provider.dart';
+
+import '../product_details.dart';
 
 class WishlistData extends StatefulWidget {
   final String productId;
@@ -12,6 +18,7 @@ class WishlistData extends StatefulWidget {
 class _WishlistDataState extends State<WishlistData> {
   @override
   Widget build(BuildContext context) {
+    final favsAttr = Provider.of<FavAttributes>(context);
     return Stack(
       children: <Widget>[
         Container(
@@ -22,14 +29,15 @@ class _WishlistDataState extends State<WishlistData> {
             borderRadius: BorderRadius.circular(5.0),
             elevation: 3.0,
             child: InkWell(
-              onTap: () {},
+              onTap: () => Navigator.pushNamed(context, ProductDetails.routeName,
+                  arguments: widget.productId),
               child: Container(
                 padding: EdgeInsets.all(16.0),
                 child: Row(
                   children: <Widget>[
                     Container(
                       height: 80,
-                      child: Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4PdHtXka2-bDDww6Nuect3Mt9IwpE4v4HNw&usqp=CAU'),
+                      child: Image.network(favsAttr.imageUrl),
                     ),
                     SizedBox(
                       width: 10.0,
@@ -39,7 +47,7 @@ class _WishlistDataState extends State<WishlistData> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Title',
+                            favsAttr.title,
                             style: TextStyle(
                                 fontSize: 16.0, fontWeight: FontWeight.bold),
                           ),
@@ -47,7 +55,7 @@ class _WishlistDataState extends State<WishlistData> {
                             height: 20.0,
                           ),
                           Text(
-                            "\$ 80",
+                            "\$ ${favsAttr.price}",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18.0),
                           ),
@@ -66,6 +74,7 @@ class _WishlistDataState extends State<WishlistData> {
   }
 
   Widget positionedRemove(String productId) {
+    final favProvider = Provider.of<FavProvider>(context);
     return Positioned(
       top: 20,
       right: 15,
@@ -82,6 +91,11 @@ class _WishlistDataState extends State<WishlistData> {
               color: Colors.white,
             ),
             onPressed: () => {
+              GlobalMethods.showTheDialog(
+                  'Remove wish!',
+                  'This product will be removed from your wishlist!',
+                      () => favProvider.removeItem(productId),
+                  context),
             }),
       ),
     );

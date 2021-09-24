@@ -8,6 +8,7 @@ import 'package:flutter_default_code/screens/wishlist/wishlist.dart';
 import 'package:provider/provider.dart';
 
 import 'provider/cart_provider.dart';
+import 'provider/fav_provider.dart';
 import 'provider/products_provider.dart';
 import 'screens/bottom_bar.dart';
 import 'screens/inner_screens/brands_navigation_rail.dart';
@@ -44,6 +45,7 @@ class _MyAppState extends State<MyApp> {
         }),
         ChangeNotifierProvider(create: (_) => ProductsProvider(),),
         ChangeNotifierProvider(create: (_) => CartProvider(),),
+        ChangeNotifierProvider(create: (_) => FavProvider(),),
       ],
       child: Consumer<DarkThemeProvider>(builder: (context, themeData, child) {
         return MaterialApp(

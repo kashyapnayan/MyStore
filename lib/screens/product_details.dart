@@ -5,8 +5,10 @@ import 'package:flutter_default_code/consts/my_icons.dart';
 import 'package:flutter_default_code/models/product.dart';
 import 'package:flutter_default_code/provider/cart_provider.dart';
 import 'package:flutter_default_code/provider/dark_theme_provider.dart';
+import 'package:flutter_default_code/provider/fav_provider.dart';
 import 'package:flutter_default_code/provider/products_provider.dart';
 import 'package:flutter_default_code/widgets/feeds_products.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 
 import 'cart/cart.dart';
@@ -26,6 +28,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     final themeState = Provider.of<DarkThemeProvider>(context);
     final productData = Provider.of<ProductsProvider>(context, listen: false);
     final cartProvider = Provider.of<CartProvider>(context);
+    final favProvider = Provider.of<FavProvider>(context);
     final productList = productData.products;
     final productId = ModalRoute.of(context)!.settings.arguments as String;
     final productAttribute = productData.findProductById(productId);
@@ -381,11 +384,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                     height: 50,
                     child: InkWell(
                       splashColor: ColorsConsts.favColor,
-                      onTap: () {},
+                      onTap: () {
+                        favProvider.addAndRemoveFromFav(
+                            productId,
+                            productAttribute.price,
+                            productAttribute.title,
+                            productAttribute.imageUrl);
+                      },
                       child: Center(
                         child: Icon(
-                          Icons.favorite,
-                          color: Colors.red,
+                          Ionicons.heart_circle_outline,
+                          color: favProvider.getFavItems.containsKey(productId)
+                              ? Colors.red
+                              : Colors.white,
                         ),
                       ),
                     ),
