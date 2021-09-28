@@ -5,7 +5,7 @@ import 'package:ionicons/ionicons.dart';
 
 import 'auth/login.dart';
 import 'auth/sign_up.dart';
-import 'bottom_bar.dart';
+import 'main_screen.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -222,7 +222,7 @@ class _LandingPageState extends State<LandingPage>
                   : OutlinedButton(
                       onPressed: () {
                         // _loginAnonymosly();
-                        Navigator.pushNamed(context, BottomBarScreen.routeName);
+                        Navigator.pushNamed(context, MainScreens.routeName);
                       },
                       style: OutlinedButton.styleFrom(
                         backgroundColor: Colors.teal.shade500,

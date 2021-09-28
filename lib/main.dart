@@ -17,6 +17,8 @@ import 'screens/bottom_bar.dart';
 import 'screens/inner_screens/brands_navigation_rail.dart';
 import 'screens/inner_screens/categories_feeds.dart';
 import 'screens/landing_page.dart';
+import 'screens/main_screen.dart';
+import 'screens/upload_product_form.dart';
 
 void main() {
   runApp(MyApp());
@@ -58,17 +60,19 @@ class _MyAppState extends State<MyApp> {
           home: LandingPage(),
           routes: {
             //   '/': (ctx) => LandingPage(),
+            BottomBarScreen.routeName: (ctx) => BottomBarScreen(),
             BrandNavigationRailScreen.routeName: (ctx) =>
                 BrandNavigationRailScreen(),
             Cart.routeName: (ctx) => Cart(),
-            Feeds.routeName: (ctx) => Feeds(),
-            Wishlist.routeName: (ctx) => Wishlist(),
-            ProductDetails.routeName: (ctx) => ProductDetails(),
-            BottomBarScreen.routeName: (ctx) => BottomBarScreen(),
             CategoriesFeeds.routeName: (ctx) => CategoriesFeeds(),
-            LoginScreen.routeName: (ctx) => LoginScreen(),
-            SignUpScreen.routeName: (ctx) => SignUpScreen(),
+            Feeds.routeName: (ctx) => Feeds(),
             ForgetPassword.routeName: (ctx) => ForgetPassword(),
+            LoginScreen.routeName: (ctx) => LoginScreen(),
+            MainScreens.routeName: (ctx) => MainScreens(),
+            ProductDetails.routeName: (ctx) => ProductDetails(),
+            SignUpScreen.routeName: (ctx) => SignUpScreen(),
+            UploadProductForm.routeName: (ctx) => UploadProductForm(),
+            Wishlist.routeName: (ctx) => Wishlist(),
           },
         );
       }),

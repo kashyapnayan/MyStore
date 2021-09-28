@@ -3,6 +3,8 @@ import 'package:flutter_default_code/consts/colors.dart';
 import 'package:flutter_default_code/consts/my_icons.dart';
 import 'package:flutter_default_code/screens/cart/cart.dart';
 import 'package:flutter_default_code/screens/feeds.dart';
+import 'package:flutter_default_code/screens/upload_product_form.dart';
+import 'package:flutter_default_code/screens/wishlist/wishlist.dart';
 
 class BackLayerMenu extends StatelessWidget {
   @override
@@ -120,11 +122,11 @@ class BackLayerMenu extends StatelessWidget {
                 }, 'Cart', 1),
                 const SizedBox(height: 10.0),
                 content(context, () {
-                  navigateTo(context, Feeds.routeName);
+                  navigateTo(context, Wishlist.routeName);
                 }, 'Wishlist', 2),
                 const SizedBox(height: 10.0),
                 content(context, () {
-                  navigateTo(context, Feeds.routeName);
+                  navigateTo(context, UploadProductForm.routeName);
                 }, 'Upload a new product', 3),
               ],
             ),
