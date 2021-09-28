@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/colors.dart';
 import 'package:ionicons/ionicons.dart';
 
+import 'auth/login.dart';
+import 'auth/sign_up.dart';
+import 'bottom_bar.dart';
+
 class LandingPage extends StatefulWidget {
   @override
   _LandingPageState createState() => _LandingPageState();
@@ -108,7 +112,7 @@ class _LandingPageState extends State<LandingPage>
                       ),
                     )),
                     onPressed: () {
-                      // Navigator.pushNamed(context, LoginScreen.routeName);
+                      Navigator.pushNamed(context, LoginScreen.routeName);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -143,7 +147,7 @@ class _LandingPageState extends State<LandingPage>
                           ),
                         )),
                     onPressed: () {
-                      // Navigator.pushNamed(context, SignUpScreen.routeName);
+                      Navigator.pushNamed(context, SignUpScreen.routeName);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -218,7 +222,7 @@ class _LandingPageState extends State<LandingPage>
                   : OutlinedButton(
                       onPressed: () {
                         // _loginAnonymosly();
-                        // Navigator.pushNamed(context, BottomBarScreen.routeName);
+                        Navigator.pushNamed(context, BottomBarScreen.routeName);
                       },
                       style: OutlinedButton.styleFrom(
                         backgroundColor: Colors.teal.shade500,

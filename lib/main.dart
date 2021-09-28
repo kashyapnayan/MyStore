@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/theme_data.dart';
 import 'package:flutter_default_code/provider/dark_theme_provider.dart';
+import 'package:flutter_default_code/screens/auth/forget_password.dart';
+import 'package:flutter_default_code/screens/auth/login.dart';
+import 'package:flutter_default_code/screens/auth/sign_up.dart';
 import 'package:flutter_default_code/screens/cart/cart.dart';
 import 'package:flutter_default_code/screens/feeds.dart';
 import 'package:flutter_default_code/screens/product_details.dart';
@@ -63,6 +66,9 @@ class _MyAppState extends State<MyApp> {
             ProductDetails.routeName: (ctx) => ProductDetails(),
             BottomBarScreen.routeName: (ctx) => BottomBarScreen(),
             CategoriesFeeds.routeName: (ctx) => CategoriesFeeds(),
+            LoginScreen.routeName: (ctx) => LoginScreen(),
+            SignUpScreen.routeName: (ctx) => SignUpScreen(),
+            ForgetPassword.routeName: (ctx) => ForgetPassword(),
           },
         );
       }),
