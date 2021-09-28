@@ -201,7 +201,19 @@ class _UserInfoState extends State<UserInfo> {
                       switchActiveColor: Colors.indigo,
                       title: Text('Dark Theme'),
                     ),
-                    userListTile('Logout', '', 4, context)
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        splashColor: Theme.of(context).splashColor,
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          title: Text('Logout'),
+                          leading: Icon(Icons.exit_to_app_rounded,),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
