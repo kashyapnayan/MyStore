@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/colors.dart';
 import 'package:flutter_default_code/provider/dark_theme_provider.dart';
+import 'package:flutter_default_code/services/global_methods.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +26,7 @@ class _UserInfoState extends State<UserInfo> {
   String? _joinedAt;
   String? _userImageUrl;
   int? _phoneNumber;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -118,11 +121,15 @@ class _UserInfoState extends State<UserInfo> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: userTitle(title: 'User Bag')),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Divider(
                       thickness: 1,
                       color: Colors.grey,
@@ -130,7 +137,8 @@ class _UserInfoState extends State<UserInfo> {
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () => Navigator.of(context).pushNamed(Wishlist.routeName),
+                        onTap: () =>
+                            Navigator.of(context).pushNamed(Wishlist.routeName),
                         splashColor: Colors.red,
                         child: ListTile(
                           title: Text('Wishlist'),
@@ -142,7 +150,8 @@ class _UserInfoState extends State<UserInfo> {
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () => Navigator.of(context).pushNamed(Cart.routeName),
+                        onTap: () =>
+                            Navigator.of(context).pushNamed(Cart.routeName),
                         splashColor: Colors.teal,
                         child: ListTile(
                           title: Text('Cart'),
@@ -154,7 +163,8 @@ class _UserInfoState extends State<UserInfo> {
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () => Navigator.of(context).pushNamed(Cart.routeName),
+                        onTap: () =>
+                            Navigator.of(context).pushNamed(Cart.routeName),
                         splashColor: Colors.green,
                         child: ListTile(
                           title: Text('My Orders'),
@@ -163,12 +173,15 @@ class _UserInfoState extends State<UserInfo> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                         padding: const EdgeInsets.only(left: 8.0),
-                        child: userTitle(title: 'User Information')
+                        child: userTitle(title: 'User Information')),
+                    SizedBox(
+                      height: 10,
                     ),
-                    SizedBox(height: 10,),
                     Divider(
                       thickness: 1,
                       color: Colors.grey,
@@ -178,12 +191,15 @@ class _UserInfoState extends State<UserInfo> {
                     userListTile('Shipping Address', '', 2, context),
                     userListTile('Joined date', 'date', 3, context),
                     userListTile('title', 'subtitles', 4, context),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                         padding: const EdgeInsets.only(left: 8.0),
-                        child: userTitle(title: 'User Settings')
+                        child: userTitle(title: 'User Settings')),
+                    SizedBox(
+                      height: 10,
                     ),
-                    SizedBox(height: 10,),
                     Divider(
                       thickness: 1,
                       color: Colors.grey,
@@ -207,12 +223,19 @@ class _UserInfoState extends State<UserInfo> {
                         splashColor: Theme.of(context).splashColor,
                         child: ListTile(
                           onTap: () {
-                            if(Navigator.canPop(context)){
-                              Navigator.pop(context);
-                            }
+                            // if(Navigator.canPop(context)){
+                            //   Navigator.pop(context);
+                            // }
+                            GlobalMethods.showTheDialog(
+                                "Sign out", 'You really wants to Sign out',
+                                () async {
+                              await _auth.signOut();
+                            }, context);
                           },
                           title: Text('Logout'),
-                          leading: Icon(Icons.exit_to_app_rounded,),
+                          leading: Icon(
+                            Icons.exit_to_app_rounded,
+                          ),
                         ),
                       ),
                     )
@@ -294,7 +317,7 @@ class _UserInfoState extends State<UserInfo> {
     );
   }
 
-  Widget userTitle({String? title}){
+  Widget userTitle({String? title}) {
     return Text(
       title ?? '',
       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),

@@ -8,6 +8,7 @@ import 'package:flutter_default_code/screens/auth/sign_up.dart';
 import 'package:flutter_default_code/screens/cart/cart.dart';
 import 'package:flutter_default_code/screens/feeds.dart';
 import 'package:flutter_default_code/screens/product_details.dart';
+import 'package:flutter_default_code/screens/user_state.dart';
 import 'package:flutter_default_code/screens/wishlist/wishlist.dart';
 import 'package:provider/provider.dart';
 
@@ -81,7 +82,7 @@ class _MyAppState extends State<MyApp> {
             return MaterialApp(
               title: 'Flutter Demo',
               theme: Styles.themeData(themeChangeProvider.darkTheme, context),
-              home: LandingPage(),
+              home: UserState(),
               routes: {
                 //   '/': (ctx) => LandingPage(),
                 BottomBarScreen.routeName: (ctx) => BottomBarScreen(),

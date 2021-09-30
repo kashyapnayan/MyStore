@@ -40,7 +40,11 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         await _auth.signInWithEmailAndPassword(
             email: _emailAddress.toLowerCase().trim(),
-            password: _password.trim());
+            password: _password.trim()).then((value){
+              if(Navigator.canPop(context)){
+                Navigator.pop(context);
+              }
+        });
       } on FirebaseAuthException catch (error) {
         GlobalMethods.authErrorHandle(
             error.message ?? 'Something went wrong', context);
