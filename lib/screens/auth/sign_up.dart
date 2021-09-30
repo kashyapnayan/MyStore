@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_default_code/consts/colors.dart';
+import 'package:flutter_default_code/services/global_methods.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:wave/config.dart';
@@ -27,6 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   File? _pickedImage;
   late String url;
   final _formKey = GlobalKey<FormState>();
+  ///TODO: Use provider instead of this _isLoading value
   bool _isLoading = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
@@ -41,10 +43,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (isValid) {
+      setState(() {
+        _isLoading = true;
+      });
       _formKey.currentState!.save();
-      _auth.createUserWithEmailAndPassword(
-          email: _emailAddress.toLowerCase().trim(),
-          password: _password.trim());
+      try {
+        await _auth.createUserWithEmailAndPassword(
+            email: _emailAddress.toLowerCase().trim(),
+            password: _password.trim());
+      } on FirebaseAuthException catch (error) {
+        GlobalMethods.authErrorHandle(
+            error.message ?? 'Something went wrong', context);
+      }finally{
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
