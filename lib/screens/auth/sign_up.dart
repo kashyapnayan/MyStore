@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_default_code/consts/colors.dart';
@@ -27,6 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late String url;
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   void dispose() {
     _passwordFocusNode.dispose();
@@ -39,7 +41,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (isValid) {
-      print('valid');
+      _formKey.currentState!.save();
+      _auth.createUserWithEmailAndPassword(
+          email: _emailAddress.toLowerCase().trim(),
+          password: _password.trim());
     }
   }
 

@@ -207,7 +207,9 @@ class _UserInfoState extends State<UserInfo> {
                         splashColor: Theme.of(context).splashColor,
                         child: ListTile(
                           onTap: () {
-                            Navigator.pop(context);
+                            if(Navigator.canPop(context)){
+                              Navigator.pop(context);
+                            }
                           },
                           title: Text('Logout'),
                           leading: Icon(Icons.exit_to_app_rounded,),

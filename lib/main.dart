@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/theme_data.dart';
 import 'package:flutter_default_code/provider/dark_theme_provider.dart';
@@ -21,6 +22,7 @@ import 'screens/main_screen.dart';
 import 'screens/upload_product_form.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
@@ -42,40 +44,64 @@ class _MyAppState extends State<MyApp> {
     getCurrentAppTheme();
   }
 
+  final Future<FirebaseApp> _firebaseInitialization = Firebase.initializeApp();
+
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) {
-          return themeChangeProvider;
-        }),
-        ChangeNotifierProvider(create: (_) => ProductsProvider(),),
-        ChangeNotifierProvider(create: (_) => CartProvider(),),
-        ChangeNotifierProvider(create: (_) => FavProvider(),),
-      ],
-      child: Consumer<DarkThemeProvider>(builder: (context, themeData, child) {
-        return MaterialApp(
-          title: 'Flutter Demo',
-          theme: Styles.themeData(themeChangeProvider.darkTheme, context),
-          home: LandingPage(),
-          routes: {
-            //   '/': (ctx) => LandingPage(),
-            BottomBarScreen.routeName: (ctx) => BottomBarScreen(),
-            BrandNavigationRailScreen.routeName: (ctx) =>
-                BrandNavigationRailScreen(),
-            Cart.routeName: (ctx) => Cart(),
-            CategoriesFeeds.routeName: (ctx) => CategoriesFeeds(),
-            Feeds.routeName: (ctx) => Feeds(),
-            ForgetPassword.routeName: (ctx) => ForgetPassword(),
-            LoginScreen.routeName: (ctx) => LoginScreen(),
-            MainScreens.routeName: (ctx) => MainScreens(),
-            ProductDetails.routeName: (ctx) => ProductDetails(),
-            SignUpScreen.routeName: (ctx) => SignUpScreen(),
-            UploadProductForm.routeName: (ctx) => UploadProductForm(),
-            Wishlist.routeName: (ctx) => Wishlist(),
-          },
+    return FutureBuilder<Object>(
+      future: _firebaseInitialization,
+      builder: (context, snapshot) {
+        if(snapshot.hasError){
+          return MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: Text('Error initializing Firebase'),
+              ),
+            ),
+          );
+        } else if(snapshot.connectionState == ConnectionState.waiting){
+          return MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+        }
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) {
+              return themeChangeProvider;
+            }),
+            ChangeNotifierProvider(create: (_) => ProductsProvider(),),
+            ChangeNotifierProvider(create: (_) => CartProvider(),),
+            ChangeNotifierProvider(create: (_) => FavProvider(),),
+          ],
+          child: Consumer<DarkThemeProvider>(builder: (context, themeData, child) {
+            return MaterialApp(
+              title: 'Flutter Demo',
+              theme: Styles.themeData(themeChangeProvider.darkTheme, context),
+              home: LandingPage(),
+              routes: {
+                //   '/': (ctx) => LandingPage(),
+                BottomBarScreen.routeName: (ctx) => BottomBarScreen(),
+                BrandNavigationRailScreen.routeName: (ctx) =>
+                    BrandNavigationRailScreen(),
+                Cart.routeName: (ctx) => Cart(),
+                CategoriesFeeds.routeName: (ctx) => CategoriesFeeds(),
+                Feeds.routeName: (ctx) => Feeds(),
+                ForgetPassword.routeName: (ctx) => ForgetPassword(),
+                LoginScreen.routeName: (ctx) => LoginScreen(),
+                MainScreens.routeName: (ctx) => MainScreens(),
+                ProductDetails.routeName: (ctx) => ProductDetails(),
+                SignUpScreen.routeName: (ctx) => SignUpScreen(),
+                UploadProductForm.routeName: (ctx) => UploadProductForm(),
+                Wishlist.routeName: (ctx) => Wishlist(),
+              },
+            );
+          }),
         );
-      }),
+      }
     );
   }
 }
