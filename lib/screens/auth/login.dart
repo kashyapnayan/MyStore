@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/colors.dart';
+import 'package:flutter_default_code/services/global_methods.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
@@ -19,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _password = '';
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   void dispose() {
     _passwordFocusNode.dispose();
@@ -29,7 +32,22 @@ class _LoginScreenState extends State<LoginScreen> {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (isValid) {
-      print('valid');
+      setState(() {
+        _isLoading = true;
+      });
+      _formKey.currentState!.save();
+      try {
+        await _auth.signInWithEmailAndPassword(
+            email: _emailAddress.toLowerCase().trim(),
+            password: _password.trim());
+      } on FirebaseAuthException catch (error) {
+        GlobalMethods.authErrorHandle(
+            error.message ?? 'Something went wrong', context);
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
