@@ -28,7 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   File? _pickedImage;
   late String url;
   final _formKey = GlobalKey<FormState>();
-  ///TODO: Use provider instead of this _isLoading value
+  //TODO: Use provider instead of this _isLoading value
   bool _isLoading = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
