@@ -20,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _emailAddress = '';
   String _password = '';
   final _formKey = GlobalKey<FormState>();
+  //TODO: Use provider instead of this _isLoading value
   bool _isLoading = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
