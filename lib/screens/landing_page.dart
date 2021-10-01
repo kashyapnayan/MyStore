@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/colors.dart';
+import 'package:flutter_default_code/services/global_methods.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ionicons/ionicons.dart';
 
 import 'auth/login.dart';
@@ -23,6 +26,7 @@ class _LandingPageState extends State<LandingPage>
     'https://e-shopy.org/wp-content/uploads/2020/10/langtree-stock-image-2-girls-window-shopping-1024x646-1-620x400.jpeg',
   ];
   bool _isLoading = false;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   void initState() {
     super.initState();
@@ -47,6 +51,23 @@ class _LandingPageState extends State<LandingPage>
   void dispose() {
     _animationController.dispose();
     super.dispose();
+  }
+
+  Future<void> _googleSignIn() async {
+    final googleSignIn = GoogleSignIn();
+    final googleAccount = await googleSignIn.signIn();
+    if (googleAccount != null) {
+      final googleAuth = await googleAccount.authentication;
+      if (googleAuth.accessToken != null && googleAuth.idToken != null) {
+        try {
+          await _auth.signInWithCredential(GoogleAuthProvider.credential(
+              accessToken: '', idToken: googleAuth.idToken));
+        } on FirebaseAuthException catch (error) {
+          GlobalMethods.authErrorHandle(
+              error.message ?? 'Something went wrong', context);
+        }
+      }
+    }
   }
 
   @override
@@ -206,9 +227,7 @@ class _LandingPageState extends State<LandingPage>
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               OutlinedButton(
-                onPressed: () {
-                  // _googleSignIn();
-                },
+                onPressed: _googleSignIn,
                 style: OutlinedButton.styleFrom(
                   backgroundColor: Colors.red.shade400,
                   shape: RoundedRectangleBorder(
