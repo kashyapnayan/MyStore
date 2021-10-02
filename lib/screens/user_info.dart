@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/colors.dart';
+import 'package:flutter_default_code/consts/firebase_const.dart';
+import 'package:flutter_default_code/consts/images_const.dart';
 import 'package:flutter_default_code/provider/dark_theme_provider.dart';
 import 'package:flutter_default_code/services/global_methods.dart';
 import 'package:ionicons/ionicons.dart';
@@ -31,9 +34,27 @@ class _UserInfoState extends State<UserInfo> {
   @override
   void initState() {
     super.initState();
+    getData();
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       setState(() {});
+    });
+  }
+
+  void getData() async {
+    User? user = _auth.currentUser;
+    _uid = user!.uid;
+    // print('user email - ${user!.email}');
+    final DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection(FirebaseCollectionConst.usersCollection)
+        .doc(_uid)
+        .get();
+    setState(() {
+      _name = userDoc.get('name');
+      _email = userDoc.get('email');
+      _joinedAt = userDoc.get('joinedAt');
+      _phoneNumber = userDoc.get('phoneNumber');
+      _userImageUrl = userDoc.get('imageUrl');
     });
   }
 
@@ -91,8 +112,9 @@ class _UserInfoState extends State<UserInfo> {
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
                                   fit: BoxFit.fill,
-                                  image: NetworkImage(_userImageUrl ??
-                                      'https://t3.ftcdn.net/jpg/01/83/55/76/240_F_183557656_DRcvOesmfDl5BIyhPKrcWANFKy2964i9.jpg'),
+                                  image: NetworkImage((_userImageUrl != null)
+                                      ? _userImageUrl!
+                                      : ImagesConstants.nullImage),
                                 ),
                               ),
                             ),
@@ -108,8 +130,9 @@ class _UserInfoState extends State<UserInfo> {
                         ),
                       ),
                       background: Image(
-                        image: NetworkImage(_userImageUrl ??
-                            'https://t3.ftcdn.net/jpg/01/83/55/76/240_F_183557656_DRcvOesmfDl5BIyhPKrcWANFKy2964i9.jpg'),
+                        image: NetworkImage((_userImageUrl != null)
+                            ? _userImageUrl!
+                            : ImagesConstants.nullImage),
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -186,10 +209,16 @@ class _UserInfoState extends State<UserInfo> {
                       thickness: 1,
                       color: Colors.grey,
                     ),
-                    userListTile('Email', 'Email Sub', 0, context),
-                    userListTile('Phone Number', '58788877878', 1, context),
+                    userListTile('Email', _email ?? 'Email', 0, context),
+                    userListTile(
+                        'Phone Number',
+                        (_phoneNumber != null)
+                            ? _phoneNumber.toString()
+                            : '58788877878',
+                        1,
+                        context),
                     userListTile('Shipping Address', '', 2, context),
-                    userListTile('Joined date', 'date', 3, context),
+                    userListTile('Joined date', _joinedAt ?? 'NA', 3, context),
                     userListTile('title', 'subtitles', 4, context),
                     SizedBox(
                       height: 10,
