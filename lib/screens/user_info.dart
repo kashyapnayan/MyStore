@@ -50,17 +50,19 @@ class _UserInfoState extends State<UserInfo> {
     // print('user email - ${user!.email}');
     // print('photoUrl - ${user.photoURL}');
     // print('displayName - ${user.displayName}');
-    final DocumentSnapshot userDoc = await FirebaseFirestore.instance
-        .collection(FirebaseCollectionConst.usersCollection)
-        .doc(_uid)
-        .get();
-    setState(() {
-      _name = userDoc.get('name');
-      _email = userDoc.get('email');
-      _joinedAt = userDoc.get('joinedAt');
-      _phoneNumber = userDoc.get('phoneNumber');
-      _userImageUrl = userDoc.get('imageUrl');
-    });
+    if(!user.isAnonymous){
+      final DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection(FirebaseCollectionConst.usersCollection)
+          .doc(_uid)
+          .get();
+      setState(() {
+        _name = userDoc.get('name');
+        _email = userDoc.get('email');
+        _joinedAt = userDoc.get('joinedAt');
+        _phoneNumber = userDoc.get('phoneNumber');
+        _userImageUrl = userDoc.get('imageUrl');
+      });
+    }
   }
 
   @override

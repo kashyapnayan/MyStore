@@ -70,6 +70,22 @@ class _LandingPageState extends State<LandingPage>
     }
   }
 
+  void _loginAnonymously() async {
+      setState(() {
+        _isLoading = true;
+      });
+      try {
+        await _auth.signInAnonymously();
+      } on FirebaseAuthException catch (error) {
+        GlobalMethods.authErrorHandle(
+            error.message ?? 'Something went wrong', context);
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -240,8 +256,8 @@ class _LandingPageState extends State<LandingPage>
                   ? CircularProgressIndicator()
                   : OutlinedButton(
                       onPressed: () {
-                        // _loginAnonymosly();
-                        Navigator.pushNamed(context, MainScreens.routeName);
+                        _loginAnonymously();
+                        // Navigator.pushNamed(context, MainScreens.routeName);
                       },
                       style: OutlinedButton.styleFrom(
                         backgroundColor: Colors.teal.shade500,
