@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_default_code/consts/colors.dart';
+import 'package:flutter_default_code/consts/images_const.dart';
 import 'package:flutter_default_code/services/global_methods.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ionicons/ionicons.dart';
@@ -67,6 +68,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               password: _password.trim());
           final User? user = _auth.currentUser;
           if (user != null) {
+            user.updatePhotoURL(url);
+            user.updateDisplayName(_fullName);
+            user.reload();
             await FirebaseFirestore.instance
                 .collection('users')
                 .doc(user.uid)
@@ -168,8 +172,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ? CircleAvatar(
                                 radius: 65,
                                 backgroundColor: ColorsConsts.gradiendFEnd,
-                                backgroundImage: NetworkImage(
-                                    'https://t3.ftcdn.net/jpg/01/83/55/76/240_F_183557656_DRcvOesmfDl5BIyhPKrcWANFKy2964i9.jpg'),
+                                backgroundImage:
+                                    NetworkImage(ImagesConstants.userNullImage),
                               )
                             : CircleAvatar(
                                 radius: 65,

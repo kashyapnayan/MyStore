@@ -44,7 +44,12 @@ class _UserInfoState extends State<UserInfo> {
   void getData() async {
     User? user = _auth.currentUser;
     _uid = user!.uid;
+    ///These commented values has been setup while Signing Up
+    ///With the help of user.updatePhotoURL(url) and
+    ///user.updateDisplayName(_fullName) method
     // print('user email - ${user!.email}');
+    // print('photoUrl - ${user.photoURL}');
+    // print('displayName - ${user.displayName}');
     final DocumentSnapshot userDoc = await FirebaseFirestore.instance
         .collection(FirebaseCollectionConst.usersCollection)
         .doc(_uid)
@@ -114,7 +119,7 @@ class _UserInfoState extends State<UserInfo> {
                                   fit: BoxFit.fill,
                                   image: NetworkImage((_userImageUrl != null)
                                       ? _userImageUrl!
-                                      : ImagesConstants.nullImage),
+                                      : ImagesConstants.userNullImage),
                                 ),
                               ),
                             ),
@@ -132,7 +137,7 @@ class _UserInfoState extends State<UserInfo> {
                       background: Image(
                         image: NetworkImage((_userImageUrl != null)
                             ? _userImageUrl!
-                            : ImagesConstants.nullImage),
+                            : ImagesConstants.userNullImage),
                         fit: BoxFit.fill,
                       ),
                     ),
