@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/colors.dart';
+import 'package:flutter_default_code/consts/firebase_const.dart';
 import 'package:flutter_default_code/services/global_methods.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ionicons/ionicons.dart';
@@ -60,8 +62,24 @@ class _LandingPageState extends State<LandingPage>
       final googleAuth = await googleAccount.authentication;
       if (googleAuth.accessToken != null && googleAuth.idToken != null) {
         try {
-          await _auth.signInWithCredential(GoogleAuthProvider.credential(
-              accessToken: '', idToken: googleAuth.idToken));
+          var date = DateTime.now().toString();
+          var dateParse = DateTime.parse(date);
+          var formattedDate = "${dateParse.day}-${dateParse.month}-${dateParse.year}";
+          final authResult = await _auth.signInWithCredential(GoogleAuthProvider.credential(
+              accessToken: googleAuth.accessToken,
+              idToken: googleAuth.idToken));
+          await FirebaseFirestore.instance
+              .collection(FirebaseCollectionConst.usersCollection)
+              .doc(authResult.user!.uid)
+              .set({
+            'id': authResult.user!.uid,
+            'name': authResult.user!.displayName,
+            'email': authResult.user!.email,
+            'phoneNumber': authResult.user!.phoneNumber,
+            'imageUrl': authResult.user!.photoURL,
+            'joinedAt': formattedDate,
+            'createdAt': Timestamp.now()
+          });
         } on FirebaseAuthException catch (error) {
           GlobalMethods.authErrorHandle(
               error.message ?? 'Something went wrong', context);
@@ -71,19 +89,19 @@ class _LandingPageState extends State<LandingPage>
   }
 
   void _loginAnonymously() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      await _auth.signInAnonymously();
+    } on FirebaseAuthException catch (error) {
+      GlobalMethods.authErrorHandle(
+          error.message ?? 'Something went wrong', context);
+    } finally {
       setState(() {
-        _isLoading = true;
+        _isLoading = false;
       });
-      try {
-        await _auth.signInAnonymously();
-      } on FirebaseAuthException catch (error) {
-        GlobalMethods.authErrorHandle(
-            error.message ?? 'Something went wrong', context);
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
-      }
+    }
   }
 
   @override

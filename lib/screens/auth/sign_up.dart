@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_default_code/consts/colors.dart';
+import 'package:flutter_default_code/consts/firebase_const.dart';
 import 'package:flutter_default_code/consts/images_const.dart';
 import 'package:flutter_default_code/services/global_methods.dart';
 import 'package:image_picker/image_picker.dart';
@@ -59,7 +60,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           });
           final ref = FirebaseStorage.instance
               .ref()
-              .child('userImages')
+              .child(FirebaseStorageConst.usersImage)
               .child(_fullName + '.jpg');
           await ref.putFile(_pickedImage!);
           url = await ref.getDownloadURL();
@@ -72,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             user.updateDisplayName(_fullName);
             user.reload();
             await FirebaseFirestore.instance
-                .collection('users')
+                .collection(FirebaseCollectionConst.usersCollection)
                 .doc(user.uid)
                 .set({
               'id': user.uid,
