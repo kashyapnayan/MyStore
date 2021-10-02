@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_default_code/consts/colors.dart';
@@ -47,31 +48,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
     var dateParse = DateTime.parse(date);
     var formattedDate = "${dateParse.day}-${dateParse.month}-${dateParse.year}";
     if (isValid) {
-      setState(() {
-        _isLoading = true;
-      });
       _formKey.currentState!.save();
       try {
-        await _auth.createUserWithEmailAndPassword(
-            email: _emailAddress.toLowerCase().trim(),
-            password: _password.trim());
-        final User? user = _auth.currentUser;
-        if(user != null){
-          await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-            'id' : user.uid,
-            'name' : _fullName,
-            'email' : _emailAddress,
-            'phoneNumber' : _phoneNumber,
-            'imageUrl' : '',
-            'joinedAt' : formattedDate,
-            'createdAt' : Timestamp.now()
+        if (_pickedImage == null) {
+          GlobalMethods.authErrorHandle('Pick an Image', context);
+        } else {
+          setState(() {
+            _isLoading = true;
           });
-          Navigator.pop(context);
+          final ref = FirebaseStorage.instance
+              .ref()
+              .child('userImages')
+              .child(_fullName + '.jpg');
+          await ref.putFile(_pickedImage!);
+          url = await ref.getDownloadURL();
+          await _auth.createUserWithEmailAndPassword(
+              email: _emailAddress.toLowerCase().trim(),
+              password: _password.trim());
+          final User? user = _auth.currentUser;
+          if (user != null) {
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .set({
+              'id': user.uid,
+              'name': _fullName,
+              'email': _emailAddress,
+              'phoneNumber': _phoneNumber,
+              'imageUrl': url,
+              'joinedAt': formattedDate,
+              'createdAt': Timestamp.now()
+            });
+            Navigator.pop(context);
+          }
         }
       } on FirebaseAuthException catch (error) {
         GlobalMethods.authErrorHandle(
             error.message ?? 'Something went wrong', context);
-      }finally{
+      } finally {
         setState(() {
           _isLoading = false;
         });
