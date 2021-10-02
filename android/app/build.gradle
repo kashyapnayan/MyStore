@@ -34,6 +34,7 @@ android {
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -50,6 +51,7 @@ flutter {
 }
 
 dependencies {
+    def multidex_version = "2.0.1"
     implementation platform('com.google.firebase:firebase-bom:28.4.1')
 }
 
