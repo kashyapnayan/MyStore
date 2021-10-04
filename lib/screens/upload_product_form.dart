@@ -1,9 +1,14 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_default_code/consts/colors.dart';
+import 'package:flutter_default_code/consts/firebase_const.dart';
 import 'package:flutter_default_code/consts/my_icons.dart';
+import 'package:flutter_default_code/services/global_methods.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
@@ -29,7 +34,9 @@ class _UploadProductFormState extends State<UploadProductForm> {
   String? _brandValue;
   File? _pickedImage;
   bool _isLoading = false;
+  late String url;
   var uuid = Uuid();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   showAlertDialog(BuildContext context, String title, String body) {
     // show the dialog
@@ -58,13 +65,46 @@ class _UploadProductFormState extends State<UploadProductForm> {
 
     if (isValid) {
       _formKey.currentState!.save();
-      print(_productTitle);
-      print(_productPrice);
-      print(_productCategory);
-      print(_productBrand);
-      print(_productDescription);
-      print(_productQuantity);
-      // Use those values to send our request ...
+      try {
+        if (_pickedImage == null) {
+          GlobalMethods.authErrorHandle('Pick an Image', context);
+        } else {
+          setState(() {
+            _isLoading = true;
+          });
+          final ref = FirebaseStorage.instance
+              .ref()
+              .child(FirebaseStorageConst.productsImage)
+              .child(_productTitle + '.jpg');
+          await ref.putFile(_pickedImage!);
+          url = await ref.getDownloadURL();
+          final User? user = _auth.currentUser;
+          final productId = uuid.v4();
+          if (user != null) {
+            await FirebaseFirestore.instance
+                .collection(FirebaseCollectionConst.productsCollection)
+                .doc(productId)
+                .set({
+              'productTitle': _productTitle,
+              'price': _productPrice,
+              'productImage': url,
+              'productCategory': _productCategory,
+              'productBrand': _productBrand,
+              'productDescription': _productDescription,
+              'productQuality': _productQuantity,
+              'userId': user.uid,
+              'createdAt': Timestamp.now()
+            });
+          }
+        }
+      } on FirebaseAuthException catch (error) {
+        GlobalMethods.authErrorHandle(
+            error.message ?? 'Something went wrong', context);
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
