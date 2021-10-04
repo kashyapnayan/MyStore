@@ -1,7 +1,71 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_default_code/consts/firebase_const.dart';
 import 'package:flutter_default_code/models/product.dart';
 
 class ProductsProvider with ChangeNotifier {
+  List<Product> _products = [];
+
+  Future<void> fetchProducts() async {
+    await FirebaseFirestore.instance
+        .collection(FirebaseCollectionConst.productsCollection)
+        .get()
+        .then((QuerySnapshot productsData) {
+      _products = [];
+          productsData.docs.forEach((element) {
+            _products.insert(0, Product(
+                id: element.get('productId'),
+                title: element.get('productTitle'),
+                description: element.get('productDescription'),
+                price: double.parse(element.get('price')),
+                imageUrl: element.get('productImage'),
+                brand: element.get('productBrand'),
+                productCategoryName: element.get('productCategory'),
+                quantity: int.parse(element.get('productQuality')),
+                isFavourite: false,
+                isPopular: true));
+          });
+    });
+  }
+
+  List<Product> get products {
+    return _products;
+  }
+
+  List<Product> get popularProducts {
+    return _products.where((element) => element.isPopular).toList();
+  }
+
+  List<Product> findByCategory(String categoryName) {
+    List<Product> _categoryList = _products
+        .where((element) => element.productCategoryName
+            .toLowerCase()
+            .contains(categoryName.toLowerCase()))
+        .toList();
+    return _categoryList;
+  }
+
+  List<Product> findByBrandName(String brandName) {
+    List<Product> _categoryList = _products
+        .where((element) =>
+            element.brand.toLowerCase().contains(brandName.toLowerCase()))
+        .toList();
+    return _categoryList;
+  }
+
+  Product findProductById(String productId) {
+    return _products.firstWhere((element) => element.id == productId);
+  }
+
+  List<Product> searchQuery(String searchText) {
+    List<Product> _searchList = _products
+        .where((element) =>
+            element.title.toLowerCase().contains(searchText.toLowerCase()))
+        .toList();
+    return _searchList;
+  }
+
+  /*
   List<Product> _products = [
     Product(
         id: 'Samsung1',
@@ -632,42 +696,6 @@ class ProductsProvider with ChangeNotifier {
         isFavourite: false,
         isPopular: true),
   ];
-
-  List<Product> get products {
-    return _products;
-  }
-
-  List<Product> get popularProducts {
-    return _products.where((element) => element.isPopular).toList();
-  }
-
-  List<Product> findByCategory(String categoryName) {
-    List<Product> _categoryList = _products
-        .where((element) => element.productCategoryName
-            .toLowerCase()
-            .contains(categoryName.toLowerCase()))
-        .toList();
-    return _categoryList;
-  }
-
-  List<Product> findByBrandName(String brandName) {
-    List<Product> _categoryList = _products
-        .where((element) =>
-            element.brand.toLowerCase().contains(brandName.toLowerCase()))
-        .toList();
-    return _categoryList;
-  }
-
-  Product findProductById(String productId) {
-    return _products.firstWhere((element) => element.id == productId);
-  }
-
-  List<Product> searchQuery(String searchText) {
-    List<Product> _searchList = _products
-        .where((element) =>
-        element.title.toLowerCase().contains(searchText.toLowerCase()))
-        .toList();
-    return _searchList;
-  }
+   */
 
 }

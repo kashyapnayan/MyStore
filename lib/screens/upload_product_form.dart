@@ -85,6 +85,7 @@ class _UploadProductFormState extends State<UploadProductForm> {
                 .collection(FirebaseCollectionConst.productsCollection)
                 .doc(productId)
                 .set({
+              'productId' : productId,
               'productTitle': _productTitle,
               'price': _productPrice,
               'productImage': url,

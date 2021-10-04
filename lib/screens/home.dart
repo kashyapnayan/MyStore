@@ -42,7 +42,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final productsProvider = Provider.of<ProductsProvider>(context);
+    productsProvider.fetchProducts();
     final popularProducts = productsProvider.popularProducts;
+
     return BackdropScaffold(
       frontLayerBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
       headerHeight: MediaQuery.of(context).size.height * 0.25,
