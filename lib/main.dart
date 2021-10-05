@@ -2,11 +2,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/theme_data.dart';
 import 'package:flutter_default_code/provider/dark_theme_provider.dart';
+import 'package:flutter_default_code/provider/orders_provider.dart';
 import 'package:flutter_default_code/screens/auth/forget_password.dart';
 import 'package:flutter_default_code/screens/auth/login.dart';
 import 'package:flutter_default_code/screens/auth/sign_up.dart';
 import 'package:flutter_default_code/screens/cart/cart.dart';
 import 'package:flutter_default_code/screens/feeds.dart';
+import 'package:flutter_default_code/screens/orders/order.dart';
 import 'package:flutter_default_code/screens/product_details.dart';
 import 'package:flutter_default_code/screens/user_state.dart';
 import 'package:flutter_default_code/screens/wishlist/wishlist.dart';
@@ -18,7 +20,6 @@ import 'provider/products_provider.dart';
 import 'screens/bottom_bar.dart';
 import 'screens/inner_screens/brands_navigation_rail.dart';
 import 'screens/inner_screens/categories_feeds.dart';
-import 'screens/landing_page.dart';
 import 'screens/main_screen.dart';
 import 'screens/upload_product_form.dart';
 
@@ -77,6 +78,7 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider(create: (_) => ProductsProvider(),),
             ChangeNotifierProvider(create: (_) => CartProvider(),),
             ChangeNotifierProvider(create: (_) => FavProvider(),),
+            ChangeNotifierProvider(create: (_) => OrdersProvider(),),
           ],
           child: Consumer<DarkThemeProvider>(builder: (context, themeData, child) {
             return MaterialApp(
@@ -94,6 +96,7 @@ class _MyAppState extends State<MyApp> {
                 ForgetPassword.routeName: (ctx) => ForgetPassword(),
                 LoginScreen.routeName: (ctx) => LoginScreen(),
                 MainScreens.routeName: (ctx) => MainScreens(),
+                OrderScreen.routeName: (ctx) => OrderScreen(),
                 ProductDetails.routeName: (ctx) => ProductDetails(),
                 SignUpScreen.routeName: (ctx) => SignUpScreen(),
                 UploadProductForm.routeName: (ctx) => UploadProductForm(),

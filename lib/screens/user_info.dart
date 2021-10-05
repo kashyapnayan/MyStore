@@ -11,6 +11,7 @@ import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:provider/provider.dart';
 
 import 'cart/cart.dart';
+import 'orders/order.dart';
 import 'wishlist/wishlist.dart';
 
 class UserInfo extends StatefulWidget {
@@ -194,7 +195,7 @@ class _UserInfoState extends State<UserInfo> {
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () =>
-                            Navigator.of(context).pushNamed(Cart.routeName),
+                            Navigator.of(context).pushNamed(OrderScreen.routeName),
                         splashColor: Colors.green,
                         child: ListTile(
                           title: Text('My Orders'),
