@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_default_code/services/global_methods.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ionicons/ionicons.dart';
 
@@ -13,6 +15,39 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   String _emailAddress = '';
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  void _submitForm() async {
+    final isValid = _formKey.currentState!.validate();
+    FocusScope.of(context).unfocus();
+    if (isValid) {
+      setState(() {
+        _isLoading = true;
+      });
+      _formKey.currentState!.save();
+      try {
+        await _auth.sendPasswordResetEmail(
+            email: _emailAddress.trim().toLowerCase());
+        Fluttertoast.showToast(
+            msg: "A mail has been sent.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.teal,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+        Navigator.pop(context);
+      } on FirebaseAuthException catch (error) {
+        GlobalMethods.authErrorHandle(
+            error.message ?? 'Something went wrong', context);
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,8 +114,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         side: BorderSide(color: Theme.of(context).cardColor),
                       ),
                     )),
-                    // onPressed: _submitForm,
-                    onPressed: (){},
+                    onPressed: _submitForm,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
