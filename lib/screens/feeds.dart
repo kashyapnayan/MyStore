@@ -14,9 +14,19 @@ import 'package:provider/provider.dart';
 import 'cart/cart.dart';
 import 'wishlist/wishlist.dart';
 
-class Feeds extends StatelessWidget {
+class Feeds extends StatefulWidget {
   static const routeName = '/FeedsScreen';
   const Feeds({Key? key}) : super(key: key);
+
+  @override
+  State<Feeds> createState() => _FeedsState();
+}
+
+class _FeedsState extends State<Feeds> {
+
+  Future<void> _getProductsOnRefresh() async {
+    await Provider.of<ProductsProvider>(context, listen: false).fetchProducts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,18 +98,21 @@ class Feeds extends StatelessWidget {
       //   mainAxisSpacing: 8.0,
       //   crossAxisSpacing: 6.0,
       // ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        childAspectRatio: 240 / 420,
-        crossAxisSpacing: 8,
-        mainAxisSpacing: 8,
-        children: List.generate(
-            productsList.length,
-          (index) {return ChangeNotifierProvider.value(
-            value: productsList[index],
-            child: FeedsProducts(),
-          );}
-        )
+      body: RefreshIndicator(
+        onRefresh: _getProductsOnRefresh,
+        child: GridView.count(
+          crossAxisCount: 2,
+          childAspectRatio: 240 / 420,
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 8,
+          children: List.generate(
+              productsList.length,
+            (index) {return ChangeNotifierProvider.value(
+              value: productsList[index],
+              child: FeedsProducts(),
+            );}
+          )
+        ),
       ),
     );
   }
