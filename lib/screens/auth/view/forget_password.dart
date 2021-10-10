@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_default_code/screens/auth/auth_view_model/auth_view_model.dart';
 import 'package:flutter_default_code/services/global_methods.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
 
 class ForgetPassword extends StatefulWidget {
   static const routeName = '/ForgetPassword';
@@ -14,19 +16,21 @@ class ForgetPassword extends StatefulWidget {
 class _ForgetPasswordState extends State<ForgetPassword> {
   String _emailAddress = '';
   final _formKey = GlobalKey<FormState>();
-  bool _isLoading = false;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  late AuthViewModel authViewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    authViewModel = Provider.of<AuthViewModel>(context, listen: false);
+  }
 
   void _submitForm() async {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (isValid) {
-      setState(() {
-        _isLoading = true;
-      });
       _formKey.currentState!.save();
       try {
-        await _auth.sendPasswordResetEmail(
+        await authViewModel.forgotPasswordWithEmail(
             email: _emailAddress.trim().toLowerCase());
         Fluttertoast.showToast(
             msg: "A mail has been sent.",
@@ -35,16 +39,12 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             timeInSecForIosWeb: 1,
             backgroundColor: Colors.teal,
             textColor: Colors.white,
-            fontSize: 16.0
-        );
+            fontSize: 16.0);
         Navigator.pop(context);
       } on FirebaseAuthException catch (error) {
+        authViewModel.setLoading(false);
         GlobalMethods.authErrorHandle(
             error.message ?? 'Something went wrong', context);
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
       }
     }
   }
@@ -96,43 +96,41 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           SizedBox(
             height: 20,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: _isLoading
-                ? Align(
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator(
-                      color: Colors.green,
-                    ),
-                  )
-                : ElevatedButton(
-                    style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        side: BorderSide(color: Theme.of(context).cardColor),
-                      ),
-                    )),
-                    onPressed: _submitForm,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Reset password',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 17),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Icon(
-                          Ionicons.key,
-                          size: 18,
-                        )
-                      ],
-                    )),
-          ),
+          Consumer<AuthViewModel>(builder: (context, authViewModel, child) {
+            return (authViewModel.isLoading == true)
+                ? Center(child: CircularProgressIndicator())
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            side:
+                                BorderSide(color: Theme.of(context).cardColor),
+                          ),
+                        )),
+                        onPressed: _submitForm,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Reset password',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 17),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Icon(
+                              Ionicons.key,
+                              size: 18,
+                            )
+                          ],
+                        )),
+                  );
+          }),
         ],
       ),
     );

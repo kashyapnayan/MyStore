@@ -58,6 +58,14 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
+  Future<void> forgotPasswordWithEmail(
+      {required String email}) async {
+    _isLoading = true;
+    await _authService.forgotPassword(email: email);
+    _isLoading = false;
+    notifyListeners();
+  }
+
   void setLoading(bool value) {
     _isLoading = value;
     notifyListeners();
