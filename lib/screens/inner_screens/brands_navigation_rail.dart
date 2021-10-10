@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_default_code/models/product.dart';
 import 'package:flutter_default_code/provider/products_provider.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 
 import 'brands_rail_widget.dart';
@@ -208,9 +210,9 @@ class ContentSpace extends StatelessWidget {
   Widget build(BuildContext context) {
     final productData = Provider.of<ProductsProvider>(context);
     late List<Product> productsByBrandName;
-    if(brand == 'All'){
+    if (brand == 'All') {
       productsByBrandName = productData.products;
-    }else{
+    } else {
       productsByBrandName = productData.findByBrandName(brand);
     }
     return Expanded(
@@ -219,14 +221,28 @@ class ContentSpace extends StatelessWidget {
         child: MediaQuery.removePadding(
           removeTop: true,
           context: context,
-          child: ListView.builder(
-            itemCount: productsByBrandName.length,
-            itemBuilder: (BuildContext context, int index) =>
-                ChangeNotifierProvider.value(
-                    value: productsByBrandName[index],
-                    child: BrandsNavigationRail()
+          child: (productsByBrandName.isEmpty)
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Ionicons.cloud),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text('No Products available related to this brand!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18)),
+                  ],
+                )
+              : ListView.builder(
+                  itemCount: productsByBrandName.length,
+                  itemBuilder: (BuildContext context, int index) =>
+                      ChangeNotifierProvider.value(
+                          value: productsByBrandName[index],
+                          child: BrandsNavigationRail()),
                 ),
-          ),
         ),
       ),
     );
