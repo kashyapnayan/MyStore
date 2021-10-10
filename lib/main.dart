@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/theme_data.dart';
 import 'package:flutter_default_code/provider/dark_theme_provider.dart';
 import 'package:flutter_default_code/provider/orders_provider.dart';
-import 'package:flutter_default_code/screens/auth/forget_password.dart';
-import 'package:flutter_default_code/screens/auth/login.dart';
-import 'package:flutter_default_code/screens/auth/sign_up.dart';
+import 'package:flutter_default_code/screens/auth/view/forget_password.dart';
+import 'package:flutter_default_code/screens/auth/view/login.dart';
+import 'package:flutter_default_code/screens/auth/view/sign_up.dart';
 import 'package:flutter_default_code/screens/cart/cart.dart';
 import 'package:flutter_default_code/screens/feeds.dart';
 import 'package:flutter_default_code/screens/orders/order.dart';
@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 import 'provider/cart_provider.dart';
 import 'provider/fav_provider.dart';
 import 'provider/products_provider.dart';
+import 'screens/auth/auth_view_model/auth_view_model.dart';
 import 'screens/bottom_bar.dart';
 import 'screens/inner_screens/brands_navigation_rail.dart';
 import 'screens/inner_screens/categories_feeds.dart';
@@ -79,6 +80,7 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider(create: (_) => CartProvider(),),
             ChangeNotifierProvider(create: (_) => FavProvider(),),
             ChangeNotifierProvider(create: (_) => OrdersProvider(),),
+            ChangeNotifierProvider(create: (_) => AuthViewModel(),),
           ],
           child: Consumer<DarkThemeProvider>(builder: (context, themeData, child) {
             return MaterialApp(

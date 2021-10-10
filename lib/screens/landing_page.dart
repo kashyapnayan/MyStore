@@ -8,8 +8,8 @@ import 'package:flutter_default_code/services/global_methods.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ionicons/ionicons.dart';
 
-import 'auth/login.dart';
-import 'auth/sign_up.dart';
+import 'auth/view/login.dart';
+import 'auth/view/sign_up.dart';
 import 'main_screen.dart';
 
 class LandingPage extends StatefulWidget {

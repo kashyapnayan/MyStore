@@ -1,16 +1,15 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_default_code/consts/colors.dart';
-import 'package:flutter_default_code/consts/firebase_const.dart';
 import 'package:flutter_default_code/consts/images_const.dart';
+import 'package:flutter_default_code/screens/auth/auth_view_model/auth_view_model.dart';
 import 'package:flutter_default_code/services/global_methods.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
@@ -34,7 +33,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   //TODO: Use provider instead of this _isLoading value
   bool _isLoading = false;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  late AuthViewModel authViewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    authViewModel = Provider.of<AuthViewModel>(context, listen: false);
+  }
+
   @override
   void dispose() {
     _passwordFocusNode.dispose();
@@ -55,45 +61,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (_pickedImage == null) {
           GlobalMethods.authErrorHandle('Pick an Image', context);
         } else {
-          setState(() {
-            _isLoading = true;
+          await authViewModel.createUserWithEmailPassword(
+              emailAddress: _emailAddress.toLowerCase().trim(),
+              password: _password.trim(),
+              pickedImage: _pickedImage!,
+              fullName: _fullName,
+              phoneNumber: _phoneNumber,
+              joinedAt: formattedDate).then((value) {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            }
           });
-          final ref = FirebaseStorage.instance
-              .ref()
-              .child(FirebaseStorageConst.usersImage)
-              .child(_fullName + '.jpg');
-          await ref.putFile(_pickedImage!);
-          url = await ref.getDownloadURL();
-          await _auth.createUserWithEmailAndPassword(
-              email: _emailAddress.toLowerCase().trim(),
-              password: _password.trim());
-          final User? user = _auth.currentUser;
-          if (user != null) {
-            user.updatePhotoURL(url);
-            user.updateDisplayName(_fullName);
-            user.reload();
-            await FirebaseFirestore.instance
-                .collection(FirebaseCollectionConst.usersCollection)
-                .doc(user.uid)
-                .set({
-              'id': user.uid,
-              'name': _fullName,
-              'email': _emailAddress,
-              'phoneNumber': _phoneNumber,
-              'imageUrl': url,
-              'joinedAt': formattedDate,
-              'createdAt': Timestamp.now()
-            });
-            Navigator.pop(context);
-          }
         }
       } on FirebaseAuthException catch (error) {
+        authViewModel.setLoading(false);
         GlobalMethods.authErrorHandle(
             error.message ?? 'Something went wrong', context);
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
       }
     }
   }
@@ -412,40 +395,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             SizedBox(width: 10),
-                            _isLoading
-                                ? CircularProgressIndicator()
-                                : ElevatedButton(
-                                    style: ButtonStyle(
-                                        shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                        side: BorderSide(
-                                            color:
-                                                ColorsConsts.backgroundColor),
-                                      ),
-                                    )),
-                                    onPressed: _submitForm,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Sign up',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 17),
+                            Consumer<AuthViewModel>(
+                                builder: (context, authViewModel, child) {
+                              return (authViewModel.isLoading == true)
+                                  ? CircularProgressIndicator()
+                                  : ElevatedButton(
+                                      style: ButtonStyle(
+                                          shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30.0),
+                                          side: BorderSide(
+                                              color:
+                                                  ColorsConsts.backgroundColor),
                                         ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Icon(
-                                          Ionicons.person,
-                                          size: 18,
-                                        )
-                                      ],
-                                    )),
+                                      )),
+                                      onPressed: _submitForm,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Sign up',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 17),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Icon(
+                                            Ionicons.person,
+                                            size: 18,
+                                          )
+                                        ],
+                                      ));
+                            }),
                             SizedBox(width: 20),
                           ],
                         ),
