@@ -22,10 +22,9 @@ class _LandingPageState extends State<LandingPage>
   late AnimationController _animationController;
   late Animation<double> _animation;
   List<String> images = [
-    'https://e-shopy.org/wp-content/uploads/2020/08/shop.jpeg',
-    'https://e-shopy.org/wp-content/uploads/2020/08/shopingg-620x400.jpg',
-    'https://e-shopy.org/wp-content/uploads/2020/10/unattended-window-shopping--620x400.jpg',
-    'https://e-shopy.org/wp-content/uploads/2020/10/langtree-stock-image-2-girls-window-shopping-1024x646-1-620x400.jpeg',
+    'https://res.cloudinary.com/jerrick/image/upload/v1620732253/609a695d49932b001dce1ce5.jpg',
+    'https://media.istockphoto.com/photos/man-at-the-shopping-picture-id868718238?k=20&m=868718238&s=612x612&w=0&h=w42q_p1qak9lhVhXKDw1r964uV-AmzSSzC0UsMlMARQ=',
+    'https://media.istockphoto.com/photos/woman-holding-sale-shopping-bags-consumerism-shopping-lifestyle-picture-id1254508881?b=1&k=20&m=1254508881&s=170667a&w=0&h=e8irxc-knpSghyK9ZI19uOOHv0QDEWscs2O4BwGRcLA=',
   ];
   bool _isLoading = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
