@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_default_code/consts/colors.dart';
-import 'package:flutter_default_code/models/product.dart';
 import 'package:flutter_default_code/provider/products_provider.dart';
 import 'package:flutter_default_code/widgets/feeds_products.dart';
 import 'package:flutter_default_code/widgets/search_by_header.dart';
@@ -19,23 +18,20 @@ class _SearchState extends State<Search> {
   void initState() {
     super.initState();
     _searchTextController = TextEditingController();
-    _searchTextController.addListener(() {
-      setState(() {});
-    });
   }
 
   @override
   void dispose() {
     super.dispose();
     _node.dispose();
-    _searchTextController.dispose();
   }
 
-  List<Product> _searchList = [];
+  // List<Product> _searchList = [];
   @override
   Widget build(BuildContext context) {
     final productsData = Provider.of<ProductsProvider>(context);
     final productsList = productsData.products;
+    final searchedProductsList = productsData.searchedProducts;
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
@@ -107,16 +103,14 @@ class _SearchState extends State<Search> {
                   ),
                   onChanged: (value) {
                     _searchTextController.text.toLowerCase();
-                    setState(() {
-                      _searchList = productsData.searchQuery(value);
-                    });
+                    productsData.searchQuery(value);
                   },
                 ),
               ),
             ),
           ),
           SliverToBoxAdapter(
-            child: _searchTextController.text.isNotEmpty && _searchList.isEmpty
+            child: _searchTextController.text.isNotEmpty && searchedProductsList.isEmpty
                 ? Column(
               children: [
                 SizedBox(
@@ -146,11 +140,11 @@ class _SearchState extends State<Search> {
               children: List.generate(
                   _searchTextController.text.isEmpty
                       ? productsList.length
-                      : _searchList.length, (index) {
+                      : searchedProductsList.length, (index) {
                 return ChangeNotifierProvider.value(
                   value: _searchTextController.text.isEmpty
                       ? productsList[index]
-                      : _searchList[index],
+                      : searchedProductsList[index],
                   child: FeedsProducts(),
                 );
               }),

@@ -5,6 +5,7 @@ import 'package:flutter_default_code/models/product.dart';
 
 class ProductsProvider with ChangeNotifier {
   List<Product> _products = [];
+  List<Product> _searchProducts = [];
 
   Future<void> fetchProducts() async {
     await FirebaseFirestore.instance
@@ -57,12 +58,16 @@ class ProductsProvider with ChangeNotifier {
     return _products.firstWhere((element) => element.id == productId);
   }
 
-  List<Product> searchQuery(String searchText) {
-    List<Product> _searchList = _products
+  void searchQuery(String searchText) {
+    _searchProducts = _products
         .where((element) =>
             element.title.toLowerCase().contains(searchText.toLowerCase()))
         .toList();
-    return _searchList;
+    notifyListeners();
+  }
+
+  List<Product> get searchedProducts {
+    return _searchProducts;
   }
 
   /*
